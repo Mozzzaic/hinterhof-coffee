@@ -1,26 +1,246 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ==========================================================================
+   HINTERHOF COFFEE — design tokens
+   Risograph / screen-print charter: one pale ground, one ink. Nothing else.
+   Hand-drawn line art, blobby display type, everything round.
+   ========================================================================== */
+
+@theme {
+  /* Ground */
+  --color-sky: #c5d9f5;
+  --color-sky-deep: #aec9f0;
+  --color-chalk: #eaf1fc;
+
+  /* The one ink. Used at full strength — hierarchy comes from size and
+     weight, never from opacity. That is what keeps it looking printed. */
+  --color-ink: #2450be;
+  --color-ink-deep: #16337c;
+
+  --font-display: var(--font-bagel);
+  --font-sans: var(--font-familjen);
+
+  --ease-expo: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-inout: cubic-bezier(0.65, 0, 0.35, 1);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  body {
+    background-color: var(--color-sky);
+    color: var(--color-ink);
+    font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: var(--color-ink);
+    color: var(--color-sky);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 3px;
+    border-radius: 2px;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  /* ---- Display type: blobby, tight, lowercase-friendly ------------------ */
+  .display {
+    font-family: var(--font-display), ui-rounded, system-ui, sans-serif;
+    font-weight: 400;
+    line-height: 0.88;
+    letter-spacing: -0.01em;
+  }
+
+  /* ---- Label: bold caps, wide tracking, like the poster's credits ------- */
+  .label {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  /* ---- Two-colour duotone -----------------------------------------------
+     Shadows go to the ink, highlights go to the ground. Photography stops
+     fighting the palette and starts looking screen-printed. */
+  .duotone {
+    position: relative;
+    overflow: hidden;
+    background-color: var(--color-ink-deep);
+    isolation: isolate;
+  }
+
+  .duotone img {
+    filter: grayscale(1) contrast(1.15) brightness(1.02);
+    mix-blend-mode: screen;
+  }
+
+  .duotone::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: var(--color-sky);
+    mix-blend-mode: multiply;
+    pointer-events: none;
+  }
+
+  /* ---- Underline that draws in on hover --------------------------------- */
+  .link-draw {
+    position: relative;
+  }
+  .link-draw::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 100%;
+    height: 2px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.45s var(--ease-expo);
+  }
+  .link-draw:hover::after,
+  .link-draw:focus-visible::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  /* ---- GSAP split titles ------------------------------------------------
+     Hidden until SplitText has broken the text into masked lines, so the
+     unsplit string never flashes. Both fallbacks below make it visible again
+     when that is never going to happen. */
+  .split-title {
+    visibility: hidden;
+  }
+
+  /* SplitText's masks clip to the line box, and .display runs a 0.88
+     line-height, so descenders (g, y, p) get sliced off. Grow the clip box
+     downwards — overflow clips at the padding edge — and pull the same amount
+     back off the margin so the vertical rhythm is untouched. */
+  .split-title > * {
+    padding-bottom: 0.24em;
+    margin-bottom: -0.24em;
+  }
+
+  /* ---- Scroll reveal ---------------------------------------------------- */
+  .reveal {
+    opacity: 0;
+    transform: translate3d(0, var(--reveal-y, 2rem), 0);
+    transition:
+      opacity 0.7s var(--ease-expo) var(--reveal-delay, 0s),
+      transform 0.7s var(--ease-expo) var(--reveal-delay, 0s);
+    will-change: opacity, transform;
+  }
+
+  .reveal[data-revealed="true"] {
+    opacity: 1;
+    transform: none;
+    will-change: auto;
+  }
+}
+
+/* ==========================================================================
+   Motion — all of it switched off under reduced-motion
+   ========================================================================== */
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 2rem, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes steam {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0.9;
+  }
+  50% {
+    transform: translate3d(0, -6px, 0);
+    opacity: 0.5;
+  }
+}
+
+.animate-rise {
+  animation: rise 0.8s var(--ease-expo) both;
+}
+
+.animate-marquee {
+  animation: marquee 34s linear infinite;
+}
+
+.animate-spin-slow {
+  animation: spin-slow 26s linear infinite;
+}
+
+.animate-steam {
+  animation: steam 3.6s var(--ease-inout) infinite;
+}
+
+/* No JavaScript: the observer never runs, so nothing may stay hidden. */
+@media (scripting: none) {
+  .reveal,
+  .animate-rise {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+
+  .split-title {
+    visibility: visible !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal,
+  .animate-rise {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .split-title {
+    visibility: visible !important;
+  }
 }
