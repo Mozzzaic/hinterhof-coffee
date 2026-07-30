@@ -3,7 +3,8 @@
 import { useEffect, useRef, type ElementType, type ReactNode } from "react";
 
 type Props = {
-  children: ReactNode;
+  /** Optional — a bare divider rule can reveal with nothing inside it. */
+  children?: ReactNode;
   /** Seconds. Use ~0.06–0.08 steps between siblings — choreography, not lag. */
   delay?: number;
   /** Travel distance in px. */

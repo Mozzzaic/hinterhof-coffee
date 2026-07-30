@@ -1,68 +1,82 @@
 import Image from "next/image";
 import type { Product } from "@/lib/products";
 
-const roastDots: Record<Product["roast"], number> = {
-  Light: 1,
-  Medium: 2,
-  Dark: 3,
-};
-
-export default function ProductCard({ product }: { product: Product }) {
+/**
+ * Split in two — an image cell and a details cell — because the shelf lays
+ * out as two aligned grid rows (all four circles, then all four detail
+ * blocks), so a single 8px rule can run under every photo at once instead of
+ * curving around each circle individually.
+ */
+export function ProductImage({ product }: { product: Product }) {
   return (
-    <article className="group flex h-full flex-col">
-      <div className="relative">
-        {/* Round frame — the motif. Duotone keeps the photography on-palette. */}
-        <div className="duotone relative aspect-square w-full rounded-full">
-          <Image
-            src={product.image}
-            alt={`${product.name} — ${product.origin}`}
-            fill
-            sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 23vw"
-            className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105"
-          />
-        </div>
+    <div className="relative flex min-w-0 flex-col justify-end pt-7">
+      {product.status && (
+        <span className="label absolute top-0 left-0">{product.status}</span>
+      )}
+      <div className="duotone aspect-square w-full rounded-full">
+        <Image
+          src={product.image}
+          alt={`${product.name} — ${product.origin}`}
+          fill
+          sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 23vw"
+          className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] hover:scale-105"
+        />
+      </div>
+    </div>
+  );
+}
 
-        {product.status && (
-          <span className="label absolute -top-1 right-2 rounded-full bg-ink px-3.5 py-1.5 text-sky">
-            {product.status}
-          </span>
-        )}
+export function ProductDetails({
+  product,
+  lead = false,
+}: {
+  product: Product;
+  /** The wide first column gets a larger name. */
+  lead?: boolean;
+}) {
+  return (
+    <div className="flex h-full min-w-0 flex-col pt-5">
+      <h3
+        className={`display min-w-0 [overflow-wrap:anywhere] lowercase ${
+          lead
+            ? "text-[clamp(2rem,3vw,2.75rem)]"
+            : "text-[clamp(1.25rem,2.1vw,1.875rem)]"
+        }`}
+      >
+        {product.name}
+      </h3>
+
+      <div className="mt-3.5 flex items-baseline justify-between gap-4">
+        <p className="label">
+          {product.origin} · {product.weight} · {product.pricePerKg}
+        </p>
+        <span className="display shrink-0 text-[1.625rem] whitespace-nowrap">
+          €{product.price}
+        </span>
       </div>
 
-      <div className="mt-5 flex flex-1 flex-col">
-        <div className="flex items-baseline justify-between gap-3">
-          <h3 className="display text-3xl lowercase">{product.name}</h3>
-          <span className="text-lg font-bold">€{product.price}</span>
-        </div>
+      <p className="mt-3.5 mb-5.5 text-base leading-snug text-pretty">
+        {product.copy}
+      </p>
 
-        <p className="label mt-1.5">
-          {product.origin} · {product.weight}
-        </p>
-
-        {/* mb-5 guarantees a gap even on the shortest card, where mt-auto
-            below has no spare space to distribute. */}
-        <p className="mt-3 mb-5 text-[0.9375rem] leading-snug">
-          {product.copy}
-        </p>
-
-        <div className="mt-auto flex items-center justify-between gap-4 border-t-2 border-ink pt-4">
-          <p className="text-[0.8125rem] leading-tight">
-            {product.notes.join(" · ")}
-          </p>
-          <span className="flex shrink-0 items-center gap-1">
-            <span className="sr-only">{product.roast} roast</span>
-            {[1, 2, 3].map((step) => (
+      <div className="mt-auto flex flex-col gap-3 border-t-2 border-ink pt-3.5">
+        <p className="text-sm leading-tight">{product.notes.join(" · ")}</p>
+        <div className="flex min-w-0 flex-wrap items-center gap-x-2.5 gap-y-1.5">
+          <span className="label">Roast</span>
+          <span className="flex min-w-0 max-w-[7rem] flex-1 basis-[5.625rem] gap-[3px]">
+            {Array.from({ length: 5 }, (_, i) => (
               <span
-                key={step}
+                key={i}
                 aria-hidden
-                className={`h-2.5 w-2.5 rounded-full border-2 border-ink ${
-                  step <= roastDots[product.roast] ? "bg-ink" : ""
+                className={`h-2 flex-1 ${
+                  i < product.roast ? "bg-ink" : "border-2 border-ink"
                 }`}
               />
             ))}
           </span>
+          <span className="sr-only">{product.roast} of 5</span>
         </div>
       </div>
-    </article>
+    </div>
   );
 }

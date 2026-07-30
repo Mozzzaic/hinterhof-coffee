@@ -7,9 +7,9 @@
    ========================================================================== */
 
 @theme {
-  /* Ground */
+  /* Three surfaces, four colours total — matching the design handoff's own
+     token list exactly. No gradients, nothing else in the palette. */
   --color-sky: #c5d9f5;
-  --color-sky-deep: #aec9f0;
   --color-chalk: #eaf1fc;
 
   /* The one ink. Used at full strength — hierarchy comes from size and
@@ -21,7 +21,6 @@
   --font-sans: var(--font-familjen);
 
   --ease-expo: cubic-bezier(0.22, 1, 0.36, 1);
-  --ease-inout: cubic-bezier(0.65, 0, 0.35, 1);
 }
 
 @layer base {
@@ -68,6 +67,24 @@
     text-transform: uppercase;
   }
 
+  /* ---- Hero badge -------------------------------------------------------
+     Below `lg` the two hero columns stack, so the badge just pins to the
+     illustration's own corner. From `lg` up they sit side by side: the
+     `top` value tracks the h1's rendered box height (font-size × the
+     .display line-height) plus the tagline paragraph's own top margin, so
+     the badge stays level with that paragraph in the other column at any
+     viewport width — instead of two hardcoded offsets that swap at a
+     breakpoint and visibly jump. */
+  .hero-badge {
+    top: -0.5rem;
+  }
+
+  @media (min-width: 1024px) {
+    .hero-badge {
+      top: calc(clamp(3.5rem, 11vw, 9rem) * 0.88 + 1.5rem);
+    }
+  }
+
   /* ---- Two-colour duotone -----------------------------------------------
      Shadows go to the ink, highlights go to the ground. Photography stops
      fighting the palette and starts looking screen-printed. */
@@ -112,23 +129,6 @@
   .link-draw:focus-visible::after {
     transform: scaleX(1);
     transform-origin: left;
-  }
-
-  /* ---- GSAP split titles ------------------------------------------------
-     Hidden until SplitText has broken the text into masked lines, so the
-     unsplit string never flashes. Both fallbacks below make it visible again
-     when that is never going to happen. */
-  .split-title {
-    visibility: hidden;
-  }
-
-  /* SplitText's masks clip to the line box, and .display runs a 0.88
-     line-height, so descenders (g, y, p) get sliced off. Grow the clip box
-     downwards — overflow clips at the padding edge — and pull the same amount
-     back off the margin so the vertical rhythm is untouched. */
-  .split-title > * {
-    padding-bottom: 0.24em;
-    margin-bottom: -0.24em;
   }
 
   /* ---- Scroll reveal ---------------------------------------------------- */
@@ -178,18 +178,6 @@
   }
 }
 
-@keyframes steam {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0);
-    opacity: 0.9;
-  }
-  50% {
-    transform: translate3d(0, -6px, 0);
-    opacity: 0.5;
-  }
-}
-
 .animate-rise {
   animation: rise 0.8s var(--ease-expo) both;
 }
@@ -202,10 +190,6 @@
   animation: spin-slow 26s linear infinite;
 }
 
-.animate-steam {
-  animation: steam 3.6s var(--ease-inout) infinite;
-}
-
 /* No JavaScript: the observer never runs, so nothing may stay hidden. */
 @media (scripting: none) {
   .reveal,
@@ -213,10 +197,6 @@
     opacity: 1 !important;
     transform: none !important;
     animation: none !important;
-  }
-
-  .split-title {
-    visibility: visible !important;
   }
 }
 
@@ -238,9 +218,5 @@
   .animate-rise {
     opacity: 1 !important;
     transform: none !important;
-  }
-
-  .split-title {
-    visibility: visible !important;
   }
 }

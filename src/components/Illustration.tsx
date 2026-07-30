@@ -1,9 +1,16 @@
+import { useId } from "react";
+
 /**
  * Hand-drawn line art.
  *
  * The paths are plain geometry; the pencil quality comes from a turbulence +
  * displacement filter, which wobbles every stroke exactly the way a hand does.
  * That way the drawings stay editable as vectors instead of becoming assets.
+ *
+ * Every filter/path id here is generated with useId() rather than hardcoded —
+ * an SVG id is global to the document, so two instances of the same component
+ * (e.g. Bean repeated down the marquee) would otherwise collide and all
+ * render whichever filter the browser resolves first.
  */
 
 function RoughFilter({ id, scale = 2.4 }: { id: string; scale?: number }) {
@@ -37,6 +44,7 @@ const stroke = {
 
 /** The hero drawing: a gooseneck kettle pouring through a cone into a carafe. */
 export function PourOver({ className = "" }: { className?: string }) {
+  const filterId = useId();
   return (
     <svg
       viewBox="0 0 380 470"
@@ -45,9 +53,9 @@ export function PourOver({ className = "" }: { className?: string }) {
       aria-label="A gooseneck kettle pouring water through a filter cone into a glass carafe."
     >
       <defs>
-        <RoughFilter id="rough-pour" scale={2.4} />
+        <RoughFilter id={filterId} scale={2.4} />
       </defs>
-      <g filter="url(#rough-pour)" {...stroke}>
+      <g filter={`url(#${filterId})`} {...stroke}>
         {/* kettle body */}
         <path d="M36 116h112l-9 82c-1 9-8 15-17 15H62c-9 0-16-6-17-15l-9-82Z" />
         <ellipse cx="92" cy="116" rx="56" ry="12" />
@@ -77,37 +85,43 @@ export function PourOver({ className = "" }: { className?: string }) {
   );
 }
 
-/** A cup on a saucer with a little flower — the poster's quieter motif. */
-export function CupAndFlower({ className = "" }: { className?: string }) {
+/** The bar's lever machine: group head, portafilter, steam wand, gauges. */
+export function LeverMachine({ className = "" }: { className?: string }) {
+  const filterId = useId();
   return (
-    <svg viewBox="0 0 300 240" className={className} aria-hidden="true">
+    <svg
+      viewBox="0 0 350 420"
+      className={className}
+      role="img"
+      aria-label="The lever espresso machine, a cup under the group head."
+    >
       <defs>
-        <RoughFilter id="rough-cup" scale={2} />
+        <RoughFilter id={filterId} scale={2} />
       </defs>
-      <g filter="url(#rough-cup)" {...stroke}>
-        <path d="M74 116h128v42c0 28-24 50-56 50h-16c-32 0-56-22-56-50v-42Z" />
-        <path d="M202 132c20 2 33 12 33 25s-13 23-33 25" />
-        <ellipse cx="138" cy="116" rx="64" ry="13" />
-        <path d="M46 214c0-9 41-16 92-16s92 7 92 16-41 16-92 16-92-7-92-16Z" />
-        <path d="M120 116c0-24 6-42 18-54" />
-        <circle cx="146" cy="52" r="17" />
-        <circle cx="146" cy="52" r="7" />
-        <path d="M138 62c-16 6-28 14-36 24" />
-      </g>
-    </svg>
-  );
-}
-
-/** A single bean, used as a bullet and a divider. */
-export function Bean({ className = "" }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" className={className} aria-hidden="true">
-      <defs>
-        <RoughFilter id="rough-bean" scale={1} />
-      </defs>
-      <g filter="url(#rough-bean)" {...stroke} strokeWidth={2}>
-        <ellipse cx="12" cy="12" rx="9" ry="6.5" transform="rotate(-38 12 12)" />
-        <path d="M6.5 17.5C10 15 14 9 17.5 6.5" />
+      <g filter={`url(#${filterId})`} {...stroke}>
+        <path d="M70 122h190c17 0 30 13 30 30v118c0 17-13 30-30 30H70c-17 0-30-13-30-30V152c0-17 13-30 30-30Z" />
+        <path d="M62 122c16-18 48-28 103-28s87 10 103 28" />
+        <path d="M165 92V80" />
+        <circle cx="165" cy="70" r="10" />
+        <circle cx="112" cy="186" r="28" />
+        <circle cx="112" cy="186" r="4" />
+        <path d="M112 186l16-14" />
+        <path d="M196 168h68" />
+        <path d="M196 200h68" />
+        <path d="M286 130l40-32" />
+        <circle cx="332" cy="92" r="9" />
+        <path d="M40 236c-18 6-26 22-24 44" />
+        <path d="M16 288v12" />
+        <path d="M141 300v18c0 6 5 11 11 11h32c6 0 11-5 11-11v-18" />
+        <path d="M195 320h44" />
+        <circle cx="248" cy="320" r="8" />
+        <path d="M158 329v9M178 329v9" />
+        <ellipse cx="168" cy="356" rx="27" ry="7" />
+        <path d="M141 356v14c0 12 12 21 27 21s27-9 27-21v-14" />
+        <path d="M195 362c10 1 16 5 16 11s-6 10-16 11" />
+        <path d="M78 300v94M266 300v94" />
+        <path d="M58 394h230" />
+        <path d="M58 394v11M288 394v11" />
       </g>
     </svg>
   );
@@ -121,11 +135,12 @@ export function ArcText({
   text: string;
   className?: string;
 }) {
+  const pathId = useId();
   return (
     <svg viewBox="0 0 200 200" className={className} aria-hidden="true">
       <defs>
         <path
-          id="arc-path"
+          id={pathId}
           d="M100 100m-78 0a78 78 0 1 1 156 0a78 78 0 1 1 -156 0"
           fill="none"
         />
@@ -136,7 +151,7 @@ export function ArcText({
         fontWeight="700"
         letterSpacing="2.6"
       >
-        <textPath href="#arc-path" startOffset="0%">
+        <textPath href={`#${pathId}`} startOffset="0%">
           {text}
         </textPath>
       </text>

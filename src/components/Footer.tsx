@@ -9,7 +9,7 @@ export default function Footer() {
       <div className="mx-auto max-w-[1400px]">
         <div className="grid gap-10 border-b-2 border-sky pb-12 lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-4">
-            <Link href="/" className="flex items-center gap-2.5">
+            <Link href="/#top" className="flex items-center gap-2.5">
               <ArchMark className="h-7 w-auto" />
               <span className="display text-2xl lowercase">{site.name}</span>
             </Link>

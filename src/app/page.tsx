@@ -2,6 +2,7 @@ import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Marquee from "@/components/Marquee";
 import Shop from "@/components/Shop";
+import WordmarkBand from "@/components/WordmarkBand";
 import Bar from "@/components/Bar";
 import Story from "@/components/Story";
 import Visit from "@/components/Visit";
@@ -61,6 +62,7 @@ export default function Home() {
         <Hero />
         <Marquee />
         <Shop />
+        <WordmarkBand />
         <Bar />
         <Story />
         <Visit />

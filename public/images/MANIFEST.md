@@ -22,7 +22,7 @@ replaced.
 | `products/kanal.jpg` | Shop card, circular | 1:1 | 1200×1200 | Same. Keep light and background consistent across all four. |
 | `products/nachtschicht.jpg` | Shop card, circular | 1:1 | 1200×1200 | Same. |
 | `products/kalt-achtzehn.jpg` | Shop card, circular | 1:1 | 1200×1200 | Same. |
-| `roastery.jpg` | Story section, circular | 1:1 | 1400×1400 | The roaster drum mid-batch. Centred subject. |
+| `roastery.jpg` | Story section, rounded 4:5 frame with an offset outline behind it | 4:5 (shot 1:1, cover-cropped) | 1400×1400 | The roaster drum mid-batch. Centred subject — the file is square and `object-fit: cover` crops it into the 4:5 frame, so keep the subject centred rather than filling the square edge-to-edge. Reshoot at 4:5 (e.g. 1200×1500) for a more deliberate crop once the frame stabilises. |
 | `street.jpg` | Visit section, **arch** frame | 4:5 | 1200×1500 | The actual Oranienstraße passage. The top ~25% is rounded off by the arch — keep it free of anything important. |
 | `og.jpg` | Open Graph / social card | 1.91:1 | 1200×630 | Rendered in full colour, not duotone — it is a social preview, outside the page. |
 

@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Familjen+Grotesk:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<style>
+  html { -webkit-font-smoothing: antialiased; }
+  body { margin: 0; background: #c5d9f5; color: #2450be; font-family: "Familjen Grotesk", system-ui, sans-serif; }
+  ::selection { background: #2450be; color: #c5d9f5; }
+  a { color: inherit; text-decoration: none; }
+  a:hover { color: inherit; }
+  @keyframes rise { from { opacity: 0; transform: translate3d(0, 2rem, 0); } to { opacity: 1; transform: none; } }
+  @keyframes marquee { from { transform: translate3d(0,0,0); } to { transform: translate3d(-50%,0,0); } }
+  @keyframes spin-slow { to { transform: rotate(360deg); } }
+  @media (max-width: 760px) {
+    [data-stack-3] { grid-template-columns: repeat(2, minmax(0,1fr)) !important; }
+  }
+  @media (max-width: 620px) {
+    [data-stack] { grid-template-columns: minmax(0,1fr) !important; }
+    [data-stack-4] { grid-template-columns: repeat(2, minmax(0,1fr)) !important; }
+    [data-stack-3] { grid-template-columns: minmax(0,1fr) !important; }
+  }
+  @media (max-width: 440px) {
+    [data-stack-4] { grid-template-columns: minmax(0,1fr) !important; }
+  }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+</style>
+</helmet>
+
+<div style="min-height:100%;background:#c5d9f5;color:#2450be">
+
+<header data-header style="position:sticky;top:0;z-index:49;background:#c5d9f5;transition:box-shadow .3s ease">
+  <div style="max-width:1440px;margin:0 auto;padding:14px clamp(18px,4vw,44px);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px 40px">
+    <a href="#top" style="display:flex;align-items:center;gap:10px">
+      <svg viewBox="0 0 30 32" fill="none" aria-hidden="true" style="height:26px;width:auto">
+        <defs><filter id="rm-z" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" seed="4" result="n"></feTurbulence><feDisplacementMap in="SourceGraphic" in2="n" scale="0.9"></feDisplacementMap></filter></defs>
+        <g filter="url(#rm-z)" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2 30V14.5a13 13 0 0 1 26 0V30"></path>
+          <path d="M10 30v-8.5a5 5 0 0 1 10 0V30"></path>
+        </g>
+      </svg>
+      <span style="font-family:'Bagel Fat One',ui-rounded,sans-serif;font-size:22px;line-height:.88;text-transform:lowercase">hinterhof</span>
+    </a>
+    <nav aria-label="Primary" style="display:flex;flex-wrap:wrap;align-items:center;gap:14px 24px">
+      <a href="#coffee" style="font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;border-bottom:2px solid transparent;padding-bottom:2px;transition:border-color .3s ease" style-hover="border-bottom-color:#2450be">Coffee</a>
+      <a href="#bar" style="font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;border-bottom:2px solid transparent;padding-bottom:2px;transition:border-color .3s ease" style-hover="border-bottom-color:#2450be">Bar</a>
+      <a href="#story" style="font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;border-bottom:2px solid transparent;padding-bottom:2px;transition:border-color .3s ease" style-hover="border-bottom-color:#2450be">Story</a>
+      <a href="#visit" style="font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;border-bottom:2px solid transparent;padding-bottom:2px;transition:border-color .3s ease" style-hover="border-bottom-color:#2450be">Visit</a>
+      <a href="tel:+493061204488" style="font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;border:2px solid #2450be;border-radius:999px;padding:10px 20px;transition:background-color .2s ease,color .2s ease" style-hover="background:#2450be;color:#c5d9f5">Reserve</a>
+    </nav>
+  </div>
+</header>
+
+<section id="top" style="padding:8px clamp(18px,4vw,44px) 0;overflow:hidden">
+  <div style="max-width:1440px;margin:0 auto">
+
+    <p style="margin:0;padding-top:36px;font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;animation:rise .7s cubic-bezier(.22,1,.36,1) both">Specialty coffee · Kreuzberg, Berlin · Est. 2016</p>
+
+    <sc-if value="{{ masthead }}" hint-placeholder-val="{{ true }}">
+      <div style="margin-top:6px;animation:rise .9s cubic-bezier(.22,1,.36,1) both;animation-delay:.08s">
+        <svg viewBox="0 0 1000 168" role="img" aria-label="hinterhof" style="display:block;width:100%">
+          <text x="0" y="150" textLength="1000" lengthAdjust="spacingAndGlyphs" font-size="200" fill="currentColor" font-family="Bagel Fat One, ui-rounded, sans-serif">hinterhof</text>
+        </svg>
+      </div>
+    </sc-if>
+
+    <div style="display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:40px 48px;align-items:center;padding-top:18px" data-stack="">
+      <div style="min-width:0;display:flex;flex-direction:column;gap:24px">
+        <h1 style="font-family:'Bagel Fat One',ui-rounded,sans-serif;font-weight:400;font-size:clamp(3.5rem,11vw,9rem);line-height:.86;letter-spacing:-0.01em;text-transform:lowercase;margin:0;animation:rise .9s cubic-bezier(.22,1,.36,1) both;animation-delay:.12s">hinterhof</h1>
+        <p style="margin:0;max-width:34ch;font-size:24px;line-height:1.28;font-weight:500;text-wrap:pretty;animation:rise .8s cubic-bezier(.22,1,.36,1) both;animation-delay:.2s">Second courtyard, third door. A roastery and coffee bar two yards back from Oranienstraße.</p>
+
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:14px;animation:rise .8s cubic-bezier(.22,1,.36,1) both;animation-delay:.26s">
+          <a href="#coffee" style="font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;display:inline-flex;align-items:center;gap:10px;border-radius:999px;background:#2450be;color:#c5d9f5;padding:16px 28px;transition:background-color .2s ease" style-hover="background:#16337c">See the coffee <span>→</span></a>
+          <a href="#visit" style="font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;border-radius:999px;border:2px solid #2450be;padding:14px 28px;transition:background-color .2s ease,color .2s ease" style-hover="background:#2450be;color:#c5d9f5">Find the door</a>
+        </div>
+
+        <ul style="margin:6px 0 0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:2px solid #2450be;animation:rise .8s cubic-bezier(.22,1,.36,1) both;animation-delay:.34s">
+          <li style="padding:16px 20px 16px 0;border-right:2px solid #2450be">
+            <span data-count="10" style="display:block;font-family:'Bagel Fat One',ui-rounded,sans-serif;font-size:44px;line-height:.88">10</span>
+            <span style="display:block;margin-top:8px;font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase">days resting</span>
+          </li>
+          <li style="padding:16px 20px;border-right:2px solid #2450be">
+            <span data-count="07" style="display:block;font-family:'Bagel Fat One',ui-rounded,sans-serif;font-size:44px;line-height:.88">07</span>
+            <span style="display:block;margin-top:8px;font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase">origins on rotation</span>
+          </li>
+          <li style="padding:16px 0 16px 20px">
+            <span data-count="38" style="display:block;font-family:'Bagel Fat One',ui-rounded,sans-serif;font-size:44px;line-height:.88">38</span>
+            <span style="display:block;margin-top:8px;font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase">steps, bean to bar</span>
+          </li>
+        </ul>
+      </div>
+
+      <div style="position:relative;min-width:0">
+        <svg data-parallax viewBox="0 0 380 470" role="img" aria-label="A gooseneck kettle pouring water through a filter cone into a glass carafe." style="width:100%;max-width:460px;margin:0 auto;display:block;color:#2450be;animation:rise .9s cubic-bezier(.22,1,.36,1) both;animation-delay:.12s">
+          <defs>
+            <filter id="rough-pour-z" x="-8%" y="-8%" width="116%" height="116%">
+              <feTurbulence type="fractalNoise" baseFrequency="0.028" numOctaves="3" seed="9" result="noise"></feTurbulence>
+              <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.4" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>
+            </filter>
+          </defs>
+          <g filter="url(#rough-pour-z)" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M36 116h112l-9 82c-1 9-8 15-17 15H62c-9 0-16-6-17-15l-9-82Z"></path>
+            <ellipse cx="92" cy="116" rx="56" ry="12"></ellipse>
+            <path d="M92 104v-9"></path>
+            <circle cx="92" cy="88" r="8"></circle>
+            <path d="M50 108c4-32 20-48 42-48s38 16 42 48"></path>
+            <path d="M147 142c30 2 47 14 55 33 6 15 6 30 4 43"></path>
+            <path d="M206 224v30" stroke-dasharray="12 10"></path>
+            <ellipse cx="190" cy="262" rx="92" ry="14"></ellipse>
+            <path d="M98 262l84 84c4 4 12 4 16 0l84-84"></path>
+            <path d="M148 300h84"></path>
+            <path d="M166 322c8 6 18 8 28 5M180 334c8 4 16 3 22-2"></path>
+            <ellipse cx="190" cy="348" rx="72" ry="11"></ellipse>
+            <path d="M118 348v76c0 25 20 44 46 44h52c26 0 46-19 46-44v-76"></path>
+            <path d="M262 372c25 3 40 15 40 32s-15 29-40 32"></path>
+            <path d="M126 418c20 10 41 15 64 15s44-5 64-15"></path>
+          </g>
+        </svg>
+        <div style="position:absolute;top:-8px;right:0;height:118px;width:118px;pointer-events:none">
+          <svg viewBox="0 0 200 200" aria-hidden="true" style="height:100%;width:100%;color:#2450be;animation:spin-slow 26s linear infinite">
+            <defs><path id="arc-path-z" d="M100 100m-78 0a78 78 0 1 1 156 0a78 78 0 1 1 -156 0" fill="none"></path></defs>
+            <text fill="currentColor" font-size="15.5" font-weight="700" letter-spacing="2.6"><textPath href="#arc-path-z" startOffset="0%">ROASTED IN THE COURTYARD · SINCE 2016 · </textPath></text>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div style="overflow:hidden;background:#2450be;color:#c5d9f5;padding:12px 0;margin-top:56px">
+  <div data-marquee style="display:flex;width:max-content;animation:marquee 34s linear infinite">
+    <ul style="display:flex;flex-shrink:0;align-items:center;margin:0;padding:0;list-style:none">
+      <li style="font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;display:flex;align-items:center;gap:32px;padding:0 32px;flex-shrink:0">Ethiopia · Yirgacheffe — Chelbesa, washed <span style="width:6px;height:6px;border-radius:999px;background:currentColor;display:block"></span></li>
+      <li style="font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;display:flex;align-items:center;gap:32px;padding:0 32px;flex-shrink:0">Brazil · Cerrado — Fazenda Rainha, natural <span style="width:6px;height:6px;border-radius:999px;background:currentColor;display:block"></span></li>
+      <li style="font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;display:flex;align-items:center;gap:32px;padding:0 32px;flex-shrink:0">Colombia · Huila — La Esperanza, washed <span style="width:6px;height:6px;border-radius:999px;background:currentColor;display:block"></span></li>
+      <li style="font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;display:flex;align-items:center;gap:32px;padding:0 32px;flex-shrink:0">Sumatra · Aceh Gayo — Ketiara co-op, wet-hulled <span style="width:6px;height:6px;border-radius:999px;background:currentColor;display:block"></span></li>
+      <li style="font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;display:flex;align-items:center;gap:32px;padding:0 32px;flex-shrink:0">Kenya · Nyeri — Gatomboya AA, washed <span style="width:6px;height:6px;border-radius:999px;background:currentColor;display:block"></span></li>
+      <li style="font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;display:flex;align-items:center;gap:32px;padding:0 32px;flex-shrink:0">Guatemala · Huehuetenango — La Maravilla, honey <span style="width:6px;height:6px;border-radius:999px;background:currentColor;display:block"></span></li>
+    </ul>
+    <ul aria-hidden="true" style="display:flex;flex-shrink:0;align-items:center;margin:0;padding:0;list-style:none">
+      <li style="font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;display:flex;align-items:center;gap:32px;padding:0 32px;flex-shrink:0">Ethiopia · Yirgacheffe — Chelbesa, washed <span style="width:6px;height:6px;border-radius:999px;background:currentColor;display:block"></span></li>
+      <li style="font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;display:flex;align-items:center;gap:32px;padding:0 32px;flex-shrink:0">Brazil · Cerrado — Fazenda Rainha, natural <span style="width:6px;height:6px;border-radius:999px;background:currentColor;display:block"></span></li>
+      <li style="font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;display:flex;align-items:center;gap:32px;padding:0 32px;flex-shrink:0">Colombia · Huila — La Esperanza, washed <span style="width:6px;height:6px;border-radius:999px;background:currentColor;display:block"></span></li>
+      <li style="font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;display:flex;align-items:center;gap:32px;padding:0 32px;flex-shrink:0">Sumatra · Aceh Gayo — Ketiara co-op, wet-hulled <span style="width:6px;height:6px;border-radius:999px;background:currentColor;display:block"></span></li>
+      <li style="font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;display:flex;align-items:center;gap:32px;padding:0 32px;flex-shrink:0">Kenya · Nyeri — Gatomboya AA, washed <span style="width:6px;height:6px;border-radius:999px;background:currentColor;display:block"></span></li>
+      <li style="font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;display:flex;align-items:center;gap:32px;padding:0 32px;flex-shrink:0">Guatemala · Huehuetenango — La Maravilla, honey <span style="width:6px;height:6px;border-radius:999px;background:currentColor;display:block"></span></li>
+    </ul>
+  </div>
+</div>
+
+<section id="coffee" data-screen-label="Shop" style="background:#eaf1fc;padding:clamp(64px,8vw,104px) clamp(18px,4vw,44px) clamp(56px,7vw,96px)">
+  <div style="max-width:1440px;margin:0 auto">
+    <div data-reveal style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,34ch);gap:20px 56px;align-items:end;border-top:6px solid #2450be;padding-top:20px" data-stack="">
+      <div>
+        <p style="font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;margin:0"><sc-if value="{{ numbered }}" hint-placeholder-val="{{ true }}"><span>01 / </span></sc-if>The shelf</p>
+        <h2 style="font-family:'Bagel Fat One',ui-rounded,sans-serif;font-weight:400;font-size:clamp(2.75rem,6.5vw,5.5rem);line-height:.86;letter-spacing:-0.01em;text-transform:lowercase;margin:14px 0 0">four bags, no filler</h2>
+      </div>
+      <p style="font-size:15px;line-height:1.4;margin:0 0 8px">What is on the shelf is what came off the roaster this fortnight. When a lot runs out it does not come back.</p>
+    </div>
+
+    <div style="margin-top:72px;display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:28px 36px;align-items:stretch;border-bottom:8px solid #2450be;padding-bottom:22px" data-stack-4="">
+      <div data-reveal style="position:relative;min-width:0;display:flex;flex-direction:column;justify-content:flex-end;padding-top:28px">
+        <span style="position:absolute;top:0;left:0;font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase">House</span>
+        <div style="position:relative;width:100%;aspect-ratio:1;border-radius:999px;overflow:hidden;background:#16337c;isolation:isolate" style-after="content:'';position:absolute;inset:0;background:#c5d9f5;mix-blend-mode:multiply;pointer-events:none;border-radius:999px">
+          <img src="images/products/goerli.jpg" alt="Görli — Brazil × Ethiopia" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.15) brightness(1.02);mix-blend-mode:screen;transition:transform .7s cubic-bezier(.22,1,.36,1)" style-hover="transform:scale(1.04)">
+        </div>
+      </div>
+      <div data-reveal style="position:relative;min-width:0;display:flex;flex-direction:column;justify-content:flex-end;padding-top:28px">
+        <span style="position:absolute;top:0;left:0;font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase">New</span>
+        <div style="position:relative;width:100%;aspect-ratio:1;border-radius:999px;overflow:hidden;background:#16337c;isolation:isolate" style-after="content:'';position:absolute;inset:0;background:#c5d9f5;mix-blend-mode:multiply;pointer-events:none;border-radius:999px">
+          <img src="images/products/kanal.jpg" alt="Kanal — Ethiopia, Yirgacheffe" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.15) brightness(1.02);mix-blend-mode:screen;transition:transform .7s cubic-bezier(.22,1,.36,1)" style-hover="transform:scale(1.04)">
+        </div>
+      </div>
+      <div data-reveal style="position:relative;min-width:0;display:flex;flex-direction:column;justify-content:flex-end;padding-top:28px">
+        <div style="position:relative;width:100%;aspect-ratio:1;border-radius:999px;overflow:hidden;background:#16337c;isolation:isolate" style-after="content:'';position:absolute;inset:0;background:#c5d9f5;mix-blend-mode:multiply;pointer-events:none;border-radius:999px">
+          <img src="images/products/nachtschicht.jpg" alt="Nachtschicht — Sumatra, Aceh Gayo" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.15) brightness(1.02);mix-blend-mode:screen;transition:transform .7s cubic-bezier(.22,1,.36,1)" style-hover="transform:scale(1.04)">
+        </div>
+      </div>
+      <div data-reveal style="position:relative;min-width:0;display:flex;flex-direction:column;justify-content:flex-end;padding-top:28px">
+        <span style="position:absolute;top:0;left:0;font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase">Last</span>
+        <div style="position:relative;width:100%;aspect-ratio:1;border-radius:999px;overflow:hidden;background:#16337c;isolation:isolate" style-after="content:'';position:absolute;inset:0;background:#c5d9f5;mix-blend-mode:multiply;pointer-events:none;border-radius:999px">
+          <img src="images/products/kalt-achtzehn.jpg" alt="Kalt 18 — rotating blend, cold brew" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.15) brightness(1.02);mix-blend-mode:screen;transition:transform .7s cubic-bezier(.22,1,.36,1)" style-hover="transform:scale(1.04)">
+        </div>
+      </div>
+    </div>
+
+    <ul data-stack-4 style="margin:0;padding:0;list-style:none;display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:28px 36px">
+      <li data-reveal style="display:flex;flex-direction:column;min-width:0;padding-top:20px">
+        <h3 style="font-family:'Bagel Fat One',ui-rounded,sans-serif;font-weight:400;font-size:clamp(2rem,3vw,2.75rem);line-height:.88;text-transform:lowercase;margin:0;min-width:0;overflow-wrap:anywhere">Görli</h3>
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-top:14px">
+          <p style="font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;margin:0">Brazil × Ethiopia · 250 g · €56/kg</p>
+          <span style="font-family:'Bagel Fat One',ui-rounded,sans-serif;font-size:26px;line-height:.88;white-space:nowrap">€14</span>
+        </div>
+        <p style="font-size:16px;line-height:1.4;margin:14px 0 22px;text-wrap:pretty">The blend the bar runs on. Sweet, heavy in the middle, holds its nerve under milk.</p>
+        <div style="margin-top:auto;border-top:2px solid #2450be;padding-top:14px;display:flex;flex-direction:column;gap:12px">
+          <p style="font-size:14px;line-height:1.3;margin:0">Cocoa nib · Red plum · Brown sugar</p>
+          <sc-if value="{{ roastScale }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;align-items:center;flex-wrap:wrap;gap:6px 10px;min-width:0">
+              <span style="font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase">Roast</span>
+              <span style="display:flex;gap:3px;flex:1 1 90px;min-width:0;max-width:112px">
+                <span style="height:8px;flex:1;background:#2450be;display:block"></span>
+                <span style="height:8px;flex:1;background:#2450be;display:block"></span>
+                <span style="height:8px;flex:1;background:#2450be;display:block"></span>
+                <span style="height:8px;flex:1;border:2px solid #2450be;display:block"></span>
+                <span style="height:8px;flex:1;border:2px solid #2450be;display:block"></span>
+              </span>
+            </div>
+          </sc-if>
+        </div>
+      </li>
+      <li data-reveal style="display:flex;flex-direction:column;min-width:0;padding-top:20px">
+        <h3 style="font-family:'Bagel Fat One',ui-rounded,sans-serif;font-weight:400;font-size:clamp(1.25rem,2.1vw,1.875rem);line-height:.9;text-transform:lowercase;margin:0;min-width:0;overflow-wrap:break-word">Kanal</h3>
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-top:14px">
+          <p style="font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;margin:0">Ethiopia, Yirgacheffe · 250 g · €68/kg</p>
+          <span style="font-family:'Bagel Fat One',ui-rounded,sans-serif;font-size:26px;line-height:.88;white-space:nowrap">€17</span>
+        </div>
+        <p style="font-size:15px;line-height:1.4;margin:14px 0 22px;text-wrap:pretty">Roasted light enough to keep the florals intact. Delicate, tea-like, best drunk slowly.</p>
+        <div style="margin-top:auto;border-top:2px solid #2450be;padding-top:14px;display:flex;flex-direction:column;gap:12px">
+          <p style="font-size:14px;line-height:1.3;margin:0">Bergamot · White peach · Jasmine</p>
+          <sc-if value="{{ roastScale }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;align-items:center;flex-wrap:wrap;gap:6px 10px;min-width:0">
+              <span style="font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase">Roast</span>
+              <span style="display:flex;gap:3px;flex:1 1 90px;min-width:0;max-width:112px">
+                <span style="height:8px;flex:1;background:#2450be;display:block"></span>
+                <span style="height:8px;flex:1;border:2px solid #2450be;display:block"></span>
+                <span style="height:8px;flex:1;border:2px solid #2450be;display:block"></span>
+                <span style="height:8px;flex:1;border:2px solid #2450be;display:block"></span>
+                <span style="height:8px;flex:1;border:2px solid #2450be;display:block"></span>
+              </span>
+            </div>
+          </sc-if>
+        </div>
+      </li>
+      <li data-reveal style="display:flex;flex-direction:column;min-width:0;padding-top:20px">
+        <h3 style="font-family:'Bagel Fat One',ui-rounded,sans-serif;font-weight:400;font-size:clamp(1.25rem,2.1vw,1.875rem);line-height:.9;text-transform:lowercase;margin:0;min-width:0;overflow-wrap:break-word">Nachtschicht</h3>
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-top:14px">
+          <p style="font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;margin:0">Sumatra, Aceh Gayo · 250 g · €60/kg</p>
+          <span style="font-family:'Bagel Fat One',ui-rounded,sans-serif;font-size:26px;line-height:.88;white-space:nowrap">€15</span>
+        </div>
+        <p style="font-size:15px;line-height:1.4;margin:14px 0 22px;text-wrap:pretty">Our one genuinely dark roast, and unapologetic about it. Built for the end of a long shift.</p>
+        <div style="margin-top:auto;border-top:2px solid #2450be;padding-top:14px;display:flex;flex-direction:column;gap:12px">
+          <p style="font-size:14px;line-height:1.3;margin:0">Dark chocolate · Cedar · Treacle</p>
+          <sc-if value="{{ roastScale }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;align-items:center;flex-wrap:wrap;gap:6px 10px;min-width:0">
+              <span style="font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase">Roast</span>
+              <span style="display:flex;gap:3px;flex:1 1 90px;min-width:0;max-width:112px">
+                <span style="height:8px;flex:1;background:#2450be;display:block"></span>
+                <span style="height:8px;flex:1;background:#2450be;display:block"></span>
+                <span style="height:8px;flex:1;background:#2450be;display:block"></span>
+                <span style="height:8px;flex:1;background:#2450be;display:block"></span>
+                <span style="height:8px;flex:1;background:#2450be;display:block"></span>
+              </span>
+            </div>
+          </sc-if>
+        </div>
+      </li>
+      <li data-reveal style="display:flex;flex-direction:column;min-width:0;padding-top:20px">
+        <h3 style="font-family:'Bagel Fat One',ui-rounded,sans-serif;font-weight:400;font-size:clamp(1.25rem,2.1vw,1.875rem);line-height:.9;text-transform:lowercase;margin:0;min-width:0;overflow-wrap:break-word">Kalt 18</h3>
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-top:14px">
+          <p style="font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;margin:0">Blend, rotating · 500 ml · €12/l</p>
+          <span style="font-family:'Bagel Fat One',ui-rounded,sans-serif;font-size:26px;line-height:.88;white-space:nowrap">€6</span>
+        </div>
+        <p style="font-size:15px;line-height:1.4;margin:14px 0 22px;text-wrap:pretty">Eighteen hours in cold water, nothing added, bottled the same morning. Drink within five days.</p>
+        <div style="margin-top:auto;border-top:2px solid #2450be;padding-top:14px;display:flex;flex-direction:column;gap:12px">
+          <p style="font-size:14px;line-height:1.3;margin:0">Hazelnut · Cane sugar · Fig</p>
+          <sc-if value="{{ roastScale }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;align-items:center;flex-wrap:wrap;gap:6px 10px;min-width:0">
+              <span style="font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase">Roast</span>
+              <span style="display:flex;gap:3px;flex:1 1 90px;min-width:0;max-width:112px">
+                <span style="height:8px;flex:1;background:#2450be;display:block"></span>
+                <span style="height:8px;flex:1;background:#2450be;display:block"></span>
+                <span style="height:8px;flex:1;background:#2450be;display:block"></span>
+                <span style="height:8px;flex:1;border:2px solid #2450be;display:block"></span>
+                <span style="height:8px;flex:1;border:2px solid #2450be;display:block"></span>
+              </span>
+            </div>
+          </sc-if>
+        </div>
+      </li>
+    </ul>
+
+    <p data-reveal style="font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;margin:56px 0 0;border-top:2px solid #2450be;padding-top:18px">Sold over the counter, or at the roastery window on Thursdays from 16:00. Cash and card, no bag over three weeks past its roast date.</p>
+  </div>
+</section>
+
+<div aria-hidden="true" style="overflow:hidden;background:#eaf1fc;padding:clamp(20px,3vw,44px) 0 clamp(28px,4vw,56px)">
+  <div data-hscroll style="display:flex;align-items:baseline;gap:clamp(20px,3vw,56px);width:max-content;font-family:'Bagel Fat One',ui-rounded,sans-serif;font-size:clamp(3.5rem,13vw,11rem);line-height:.86;text-transform:lowercase;color:#2450be;white-space:nowrap">
+    <span>hinterhof</span><span style="font-size:.4em">·</span><span>hinterhof</span><span style="font-size:.4em">·</span><span>hinterhof</span>
+  </div>
+</div>
+
+<section id="bar" data-screen-label="Bar" style="background:#2450be;color:#c5d9f5;padding:clamp(64px,8vw,104px) clamp(18px,4vw,44px)">
+  <div style="max-width:1440px;margin:0 auto">
+    <div data-reveal style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,34ch);gap:20px 56px;align-items:end;border-top:6px solid #c5d9f5;padding-top:20px" data-stack="">
+      <div>
+        <p style="font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;margin:0"><sc-if value="{{ numbered }}" hint-placeholder-val="{{ true }}"><span>02 / </span></sc-if>On the bar</p>
+        <h2 style="font-family:'Bagel Fat One',ui-rounded,sans-serif;font-weight:400;font-size:clamp(2.75rem,6.5vw,5.5rem);line-height:.86;letter-spacing:-0.01em;text-transform:lowercase;margin:14px 0 0">nine ways in</h2>
+      </div>
+      <p style="font-size:15px;line-height:1.4;margin:0 0 8px">No sizes, no secret menu. The whole list is here — including the last three, which are ours, and whose ingredients we can name in one breath.</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:minmax(0,1.75fr) minmax(0,1fr);gap:40px 56px;align-items:start;margin-top:56px" data-stack="">
+      <dl style="margin:0">
+      <div data-reveal style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 32px;align-items:baseline;border-top:2px solid #c5d9f5;padding:22px 0">
+        <dt style="font-family:'Bagel Fat One',ui-rounded,sans-serif;font-weight:400;font-size:clamp(1.75rem,3.2vw,3.25rem);line-height:.9;text-transform:lowercase;margin:0;min-width:0;overflow-wrap:normal">Espresso</dt>
+        <dd style="font-family:'Bagel Fat One',ui-rounded,sans-serif;font-size:clamp(1.5rem,2.6vw,2.25rem);line-height:.88;text-align:right;margin:0;white-space:nowrap">€2,80</dd>
+        <dd style="margin:0;display:flex;flex-wrap:wrap;gap:6px 18px;font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase"><span>Der Doppelte</span><span>28 sec</span></dd>
+        <dd style="grid-column:1 / -1;max-width:60ch;font-size:15px;line-height:1.45;margin:8px 0 0">18 g in, 40 g out, on a lever machine that predates most of the staff.</dd>
+      </div>
+      <div data-reveal style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 32px;align-items:baseline;border-top:2px solid #c5d9f5;padding:22px 0">
+        <dt style="font-family:'Bagel Fat One',ui-rounded,sans-serif;font-weight:400;font-size:clamp(1.75rem,3.2vw,3.25rem);line-height:.9;text-transform:lowercase;margin:0;min-width:0;overflow-wrap:normal">Cortado</dt>
+        <dd style="font-family:'Bagel Fat One',ui-rounded,sans-serif;font-size:clamp(1.5rem,2.6vw,2.25rem);line-height:.88;text-align:right;margin:0;white-space:nowrap">€3,20</dd>
+        <dd style="margin:0;display:flex;flex-wrap:wrap;gap:6px 18px;font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase"><span>Der Kurze</span><span>120 ml</span></dd>
+        <dd style="grid-column:1 / -1;max-width:60ch;font-size:15px;line-height:1.45;margin:8px 0 0">Same shot, milk barely past body temperature. The one the neighbours drink standing up.</dd>
+      </div>
+      <div data-reveal style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 32px;align-items:baseline;border-top:2px solid #c5d9f5;padding:22px 0">
+        <dt style="font-family:'Bagel Fat One',ui-rounded,sans-serif;font-weight:400;font-size:clamp(1.75rem,3.2vw,3.25rem);line-height:.9;text-transform:lowercase;margin:0;min-width:0;overflow-wrap:normal">Flat White</dt>
+        <dd style="font-family:'Bagel Fat One',ui-rounded,sans-serif;font-size:clamp(1.5rem,2.6vw,2.25rem);line-height:.88;text-align:right;margin:0;white-space:nowrap">€4,00</dd>
+        <dd style="margin:0;display:flex;flex-wrap:wrap;gap:6px 18px;font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase"><span>Der Weiße</span><span>180 ml</span></dd>
+        <dd style="grid-column:1 / -1;max-width:60ch;font-size:15px;line-height:1.45;margin:8px 0 0">Görli under milk, poured flat. Whole milk unless you say otherwise; oat costs nothing extra.</dd>
+      </div>
+      <div data-reveal style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 32px;align-items:baseline;border-top:2px solid #c5d9f5;padding:22px 0">
+        <dt style="font-family:'Bagel Fat One',ui-rounded,sans-serif;font-weight:400;font-size:clamp(1.75rem,3.2vw,3.25rem);line-height:.9;text-transform:lowercase;margin:0;min-width:0;overflow-wrap:normal">Batch Brew</dt>
+        <dd style="font-family:'Bagel Fat One',ui-rounded,sans-serif;font-size:clamp(1.5rem,2.6vw,2.25rem);line-height:.88;text-align:right;margin:0;white-space:nowrap">€3,00</dd>
+        <dd style="margin:0;display:flex;flex-wrap:wrap;gap:6px 18px;font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase"><span>Der Kannenkaffee</span><span>refill €1,50</span></dd>
+        <dd style="grid-column:1 / -1;max-width:60ch;font-size:15px;line-height:1.45;margin:8px 0 0">The filter of the day, already brewed. Take it away or sit with it — refills all morning.</dd>
+      </div>
+      <div data-reveal style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 32px;align-items:baseline;border-top:2px solid #c5d9f5;padding:22px 0">
+        <dt style="font-family:'Bagel Fat One',ui-rounded,sans-serif;font-weight:400;font-size:clamp(1.75rem,3.2vw,3.25rem);line-height:.9;text-transform:lowercase;margin:0;min-width:0;overflow-wrap:normal">Filter</dt>
+        <dd style="font-family:'Bagel Fat One',ui-rounded,sans-serif;font-size:clamp(1.5rem,2.6vw,2.25rem);line-height:.88;text-align:right;margin:0;white-space:nowrap">€4,20</dd>
+        <dd style="margin:0;display:flex;flex-wrap:wrap;gap:6px 18px;font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase"><span>Der Handaufguss</span><span>3 min 30</span></dd>
+        <dd style="grid-column:1 / -1;max-width:60ch;font-size:15px;line-height:1.45;margin:8px 0 0">One cone, one origin, ground to order. We tell you what it is before you drink it.</dd>
+      </div>
+      <div data-reveal style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 32px;align-items:baseline;border-top:2px solid #c5d9f5;padding:22px 0">
+        <dt style="font-family:'Bagel Fat One',ui-rounded,sans-serif;font-weight:400;font-size:clamp(1.75rem,3.2vw,3.25rem);line-height:.9;text-transform:lowercase;margin:0;min-width:0;overflow-wrap:normal">Cold Brew</dt>
+        <dd style="font-family:'Bagel Fat One',ui-rounded,sans-serif;font-size:clamp(1.5rem,2.6vw,2.25rem);line-height:.88;text-align:right;margin:0;white-space:nowrap">€4,50</dd>
+        <dd style="margin:0;display:flex;flex-wrap:wrap;gap:6px 18px;font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase"><span>Der Kalte</span><span>18 hours</span></dd>
+        <dd style="grid-column:1 / -1;max-width:60ch;font-size:15px;line-height:1.45;margin:8px 0 0">Steeped overnight in the cellar, poured over a single block of ice.</dd>
+      </div>
+      <div data-reveal style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 32px;align-items:baseline;border-top:2px solid #c5d9f5;padding:22px 0">
+        <dt style="font-family:'Bagel Fat One',ui-rounded,sans-serif;font-weight:400;font-size:clamp(1.75rem,3.2vw,3.25rem);line-height:.9;text-transform:lowercase;margin:0;min-width:0;overflow-wrap:normal">Espresso Tonic</dt>
+        <dd style="font-family:'Bagel Fat One',ui-rounded,sans-serif;font-size:clamp(1.5rem,2.6vw,2.25rem);line-height:.88;text-align:right;margin:0;white-space:nowrap">€5,20</dd>
+        <dd style="margin:0;display:flex;flex-wrap:wrap;gap:6px 18px;font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase"><span>Der Blitz</span><span>Unser eigenes</span></dd>
+        <dd style="grid-column:1 / -1;max-width:60ch;font-size:15px;line-height:1.45;margin:8px 0 0">Kanal over tonic and one long strip of lemon peel. Bitter, floral, gone in four minutes.</dd>
+      </div>
+      <div data-reveal style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 32px;align-items:baseline;border-top:2px solid #c5d9f5;padding:22px 0">
+        <dt style="font-family:'Bagel Fat One',ui-rounded,sans-serif;font-weight:400;font-size:clamp(1.75rem,3.2vw,3.25rem);line-height:.9;text-transform:lowercase;margin:0;min-width:0;overflow-wrap:normal">Kardamom Flat</dt>
+        <dd style="font-family:'Bagel Fat One',ui-rounded,sans-serif;font-size:clamp(1.5rem,2.6vw,2.25rem);line-height:.88;text-align:right;margin:0;white-space:nowrap">€4,60</dd>
+        <dd style="margin:0;display:flex;flex-wrap:wrap;gap:6px 18px;font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase"><span>Der Grüne</span><span>Unser eigenes</span></dd>
+        <dd style="grid-column:1 / -1;max-width:60ch;font-size:15px;line-height:1.45;margin:8px 0 0">Green cardamom ground into the basket with the coffee. No syrup — the spice is in the puck.</dd>
+      </div>
+      <div data-reveal style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 32px;align-items:baseline;border-top:2px solid #c5d9f5;border-bottom:2px solid #c5d9f5;padding:22px 0">
+        <dt style="font-family:'Bagel Fat One',ui-rounded,sans-serif;font-weight:400;font-size:clamp(1.75rem,3.2vw,3.25rem);line-height:.9;text-transform:lowercase;margin:0;min-width:0;overflow-wrap:normal">Cascara Spritz</dt>
+        <dd style="font-family:'Bagel Fat One',ui-rounded,sans-serif;font-size:clamp(1.5rem,2.6vw,2.25rem);line-height:.88;text-align:right;margin:0;white-space:nowrap">€4,80</dd>
+        <dd style="margin:0;display:flex;flex-wrap:wrap;gap:6px 18px;font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase"><span>Der Rote</span><span>Unser eigenes</span></dd>
+        <dd style="grid-column:1 / -1;max-width:60ch;font-size:15px;line-height:1.45;margin:8px 0 0">Coffee-cherry husk from the Chelbesa lot, cold-steeped and carbonated. Tastes of hibiscus and dried apple.</dd>
+      </div>
+      </dl>
+
+      <div style="position:sticky;top:88px;align-self:start;display:flex;flex-direction:column;gap:28px;min-width:0">
+      <svg viewBox="0 0 350 420" aria-hidden="true" data-reveal role="img" aria-label="The lever espresso machine, a cup under the group head." style="width:100%;max-width:340px;align-self:end;color:#c5d9f5;margin-top:8px">
+        <defs><filter id="rough-cup-z" x="-8%" y="-8%" width="116%" height="116%"><feTurbulence type="fractalNoise" baseFrequency="0.028" numOctaves="3" seed="9" result="n2"></feTurbulence><feDisplacementMap in="SourceGraphic" in2="n2" scale="2" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap></filter></defs>
+        <g filter="url(#rough-cup-z)" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M70 122h190c17 0 30 13 30 30v118c0 17-13 30-30 30H70c-17 0-30-13-30-30V152c0-17 13-30 30-30Z"></path>
+          <path d="M62 122c16-18 48-28 103-28s87 10 103 28"></path>
+          <path d="M165 92V80"></path>
+          <circle cx="165" cy="70" r="10"></circle>
+          <circle cx="112" cy="186" r="28"></circle>
+          <circle cx="112" cy="186" r="4"></circle>
+          <path d="M112 186l16-14"></path>
+          <path d="M196 168h68"></path>
+          <path d="M196 200h68"></path>
+          <path d="M286 130l40-32"></path>
+          <circle cx="332" cy="92" r="9"></circle>
+          <path d="M40 236c-18 6-26 22-24 44"></path>
+          <path d="M16 288v12"></path>
+          <path d="M141 300v18c0 6 5 11 11 11h32c6 0 11-5 11-11v-18"></path>
+          <path d="M195 320h44"></path>
+          <circle cx="248" cy="320" r="8"></circle>
+          <path d="M158 329v9M178 329v9"></path>
+          <ellipse cx="168" cy="356" rx="27" ry="7"></ellipse>
+          <path d="M141 356v14c0 12 12 21 27 21s27-9 27-21v-14"></path>
+          <path d="M195 362c10 1 16 5 16 11s-6 10-16 11"></path>
+          <path d="M78 300v94M266 300v94"></path>
+          <path d="M58 394h230"></path>
+          <path d="M58 394v11M288 394v11"></path>
+        </g>
+      </svg>
+
+      <div data-reveal style="border-top:2px solid #c5d9f5;padding-top:16px;display:flex;flex-direction:column;gap:12px">
+        <p style="font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;margin:0">Good to know</p>
+        <p style="margin:0;font-size:15px;line-height:1.45">Whole milk by default, oat at no extra cost. Bring your own cup and take 30 cents off.</p>
+        <p style="margin:0;font-size:15px;line-height:1.45">The bar stops pulling shots fifteen minutes before closing — the grinder needs the same care as the coffee.</p>
+      </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<section id="story" data-screen-label="Story" style="padding:clamp(64px,8vw,104px) clamp(18px,4vw,44px)">
+  <div style="max-width:1440px;margin:0 auto">
+    <div data-reveal style="border-top:6px solid #2450be"></div>
+
+    <div style="display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:40px 56px;align-items:start;margin-top:40px" data-stack="">
+      <figure data-reveal style="margin:0">
+        <div style="position:relative;padding:0 16px 16px 0">
+          <div style="position:absolute;left:0;bottom:0;width:calc(100% - 16px);aspect-ratio:4/5;border-radius:1rem 18rem 1rem 18rem;border:2px solid #2450be;pointer-events:none"></div>
+          <div style="position:relative;width:100%;aspect-ratio:4/5;border-radius:1rem 18rem 1rem 18rem;overflow:hidden;background:#16337c;isolation:isolate" style-after="content:'';position:absolute;inset:0;background:#c5d9f5;mix-blend-mode:multiply;pointer-events:none">
+            <img src="images/roastery.jpg" alt="The drum roaster mid-batch, beans tumbling behind the glass." style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.15) brightness(1.02);mix-blend-mode:screen">
+          </div>
+        </div>
+        <figcaption style="margin-top:14px;font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase">The Probat, mid-batch · 2. Hinterhof</figcaption>
+      </figure>
+
+      <div style="min-width:0">
+        <p data-reveal style="font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;margin:0"><sc-if value="{{ numbered }}" hint-placeholder-val="{{ true }}"><span>03 / </span></sc-if>Our story</p>
+        <h2 data-reveal style="font-family:'Bagel Fat One',ui-rounded,sans-serif;font-weight:400;font-size:clamp(2.5rem,5vw,4.25rem);line-height:.86;letter-spacing:-0.01em;text-transform:lowercase;margin:14px 0 28px">nine years, one courtyard</h2>
+        <p data-reveal style="margin:0;max-width:40ch;font-size:clamp(1.5rem,2.4vw,2.25rem);line-height:1.14;font-weight:500;text-wrap:pretty">Rent on the street is for people selling something you already know you want. We are two courtyards back.</p>
+        <div data-reveal style="margin-top:32px;columns:260px 2;column-gap:40px;font-size:16px;line-height:1.5">
+          <p style="margin:0 0 16px">Hinterhof started in 2016 with a second-hand 5 kg roaster and a lease nobody else wanted: a workshop off the second courtyard, no sign on the street, one grinder. The 12 kg Probat replaced it in 2019 and has done every batch since.</p>
+          <p style="margin:0">Since 2022 most of the coffee arrives on repeat contracts with two importers who publish what the producer was paid; the rest comes from the same two farms we opened with. The arithmetic has not changed either: small lots, roasted thirty-eight steps from the bar, rested ten days before they reach the shelf. That last part costs us storage and patience, and it is the only part we will not shorten.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="visit" data-screen-label="Visit" style="background:#eaf1fc;padding:clamp(64px,8vw,104px) clamp(18px,4vw,44px)">
+  <div style="max-width:1440px;margin:0 auto">
+    <div data-reveal style="border-top:6px solid #2450be"></div>
+
+    <div style="display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:40px 56px;align-items:start;margin-top:40px" data-stack="">
+      <div style="min-width:0">
+        <p data-reveal style="font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;margin:0"><sc-if value="{{ numbered }}" hint-placeholder-val="{{ true }}"><span>04 / </span></sc-if>Visit</p>
+        <h2 data-reveal style="font-family:'Bagel Fat One',ui-rounded,sans-serif;font-weight:400;font-size:clamp(2.5rem,5vw,4.25rem);line-height:.86;letter-spacing:-0.01em;text-transform:lowercase;margin:14px 0 32px;max-width:20ch">through the passage, keep going</h2>
+        <address data-reveal style="margin:0;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 24px;font-style:normal">
+          <p style="font-family:'Bagel Fat One',ui-rounded,sans-serif;font-size:30px;line-height:.88;text-transform:lowercase;margin:0">Oranienstraße 147</p>
+          <p style="font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;margin:0">2. Hinterhof, Aufgang C · 10999 Berlin</p>
+        </address>
+        <p data-reveal style="font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;margin:10px 0 0">U1 / U8 Kottbusser Tor — 4 minutes on foot</p>
+
+        <p data-reveal style="margin:28px 0 0;display:flex;align-items:center;gap:10px;font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase">
+          <span style="width:9px;height:9px;border-radius:999px;background:#2450be;display:block;flex:none"></span>{{ openStatus }}
+        </p>
+
+        <dl data-reveal style="margin:18px 0 0;border-top:2px solid #2450be">
+          <div style="display:flex;align-items:baseline;justify-content:space-between;gap:24px;border-bottom:2px solid #2450be;padding:10px 0">
+            <dt style="font-size:14px;font-weight:500;margin:0">Monday — Friday</dt>
+            <dd style="font-size:14px;font-weight:700;font-variant-numeric:tabular-nums;margin:0">07:30 — 18:00</dd>
+          </div>
+          <div style="display:flex;align-items:baseline;justify-content:space-between;gap:24px;border-bottom:2px solid #2450be;padding:10px 0">
+            <dt style="font-size:14px;font-weight:500;margin:0">Saturday</dt>
+            <dd style="font-size:14px;font-weight:700;font-variant-numeric:tabular-nums;margin:0">09:00 — 18:00</dd>
+          </div>
+          <div style="display:flex;align-items:baseline;justify-content:space-between;gap:24px;border-bottom:2px solid #2450be;padding:10px 0">
+            <dt style="font-size:14px;font-weight:500;margin:0">Sunday</dt>
+            <dd style="font-size:14px;font-weight:700;font-variant-numeric:tabular-nums;margin:0">10:00 — 17:00</dd>
+          </div>
+          <div style="display:flex;align-items:baseline;justify-content:space-between;gap:24px;border-bottom:2px solid #2450be;padding:10px 0">
+            <dt style="font-size:14px;font-weight:500;margin:0">Roastery tours</dt>
+            <dd style="font-size:14px;font-weight:700;font-variant-numeric:tabular-nums;margin:0">Thursdays, 16:00 · 8 places</dd>
+          </div>
+        </dl>
+
+        <p data-reveal style="margin:14px 0 0;font-size:14px;line-height:1.4;max-width:44ch">Tours are free and capped at eight people — write to us and we will put your name down. Closed 24–26 December and 1 January.</p>
+
+        <div data-reveal style="margin-top:28px;display:flex;flex-wrap:wrap;align-items:center;gap:16px 28px">
+          <a href="https://www.google.com/maps/search/?api=1&amp;query=Kottbusser%20Tor%2C%2010999%20Berlin" target="_blank" rel="noreferrer noopener" style="font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;display:inline-flex;align-items:center;gap:10px;border-radius:999px;background:#2450be;color:#eaf1fc;padding:16px 28px;transition:background-color .2s ease" style-hover="background:#16337c">Open in maps <span>→</span></a>
+          <a href="mailto:hallo@hinterhof.coffee" style="font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;border-bottom:2px solid transparent;padding-bottom:2px;transition:border-color .3s ease" style-hover="border-bottom-color:#2450be">hallo@hinterhof.coffee</a>
+        </div>
+      </div>
+
+      <figure data-reveal style="margin:0">
+        <div style="position:relative;width:100%;aspect-ratio:4/5;border-radius:14rem 14rem 1rem 1rem;overflow:hidden;background:#16337c;isolation:isolate" style-after="content:'';position:absolute;inset:0;background:#c5d9f5;mix-blend-mode:multiply;pointer-events:none">
+          <img src="images/street.jpg" alt="The lit passage on Oranienstraße that leads to the second courtyard." style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.15) brightness(1.02);mix-blend-mode:screen">
+        </div>
+        <figcaption style="margin-top:16px;max-width:38ch;font-size:15px;line-height:1.4">The passage is unmarked and looks closed. It is not. Walk past the bins, cross the first yard, we are the lit door on your right.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<footer style="background:#2450be;color:#c5d9f5;padding:clamp(48px,7vw,64px) clamp(18px,4vw,44px) 24px;overflow:hidden">
+  <div style="max-width:1440px;margin:0 auto">
+    <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px;border-bottom:2px solid #c5d9f5;padding-bottom:48px" data-stack-3="">
+      <div>
+        <a href="#top" style="display:flex;align-items:center;gap:10px">
+          <svg viewBox="0 0 30 32" fill="none" aria-hidden="true" style="height:28px;width:auto">
+            <g stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 30V14.5a13 13 0 0 1 26 0V30"></path>
+              <path d="M10 30v-8.5a5 5 0 0 1 10 0V30"></path>
+            </g>
+          </svg>
+          <span style="font-family:'Bagel Fat One',ui-rounded,sans-serif;font-size:24px;line-height:.88;text-transform:lowercase">hinterhof</span>
+        </a>
+        <p style="font-family:'Bagel Fat One',ui-rounded,sans-serif;font-size:30px;line-height:.88;text-transform:lowercase;margin:20px 0 0;max-width:14ch">Second courtyard, third door.</p>
+      </div>
+
+      <div>
+        <p style="font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;margin:0">Find us</p>
+        <address style="margin:12px 0 0;font-size:15px;font-style:normal;line-height:1.5">
+          <p style="margin:0">Oranienstraße 147</p>
+          <p style="margin:0">2. Hinterhof, Aufgang C</p>
+          <p style="margin:0">10999 Berlin</p>
+        </address>
+        <div style="margin-top:16px;display:flex;flex-direction:column;gap:4px;font-size:15px">
+          <a href="tel:+493061204488" style="border-bottom:2px solid transparent;align-self:flex-start;transition:border-color .3s ease" style-hover="border-bottom-color:#c5d9f5">+49 30 6120 4488</a>
+          <a href="mailto:hallo@hinterhof.coffee" style="border-bottom:2px solid transparent;align-self:flex-start;transition:border-color .3s ease" style-hover="border-bottom-color:#c5d9f5">hallo@hinterhof.coffee</a>
+          <a href="https://instagram.com" target="_blank" rel="noreferrer noopener" style="border-bottom:2px solid transparent;align-self:flex-start;transition:border-color .3s ease" style-hover="border-bottom-color:#c5d9f5">@hinterhof.coffee</a>
+        </div>
+      </div>
+
+      <div>
+        <p style="font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;margin:0">What is on the roaster</p>
+        <p style="margin:12px 0 0;max-width:32ch;font-size:15px;line-height:1.35">One mail a month: the new lots, the ones running out, and the Thursday tour list. Nothing else.</p>
+        <form onSubmit="{{ onSubscribe }}" style="margin-top:20px;display:flex;align-items:center;gap:0;border-bottom:2px solid #c5d9f5;padding-bottom:10px">
+          <input type="email" required placeholder="you@example.com" aria-label="Email address" style="flex:1;background:transparent;border:0;outline:none;color:#c5d9f5;font-family:inherit;font-size:15px;padding:4px 0">
+          <button type="submit" style="font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;background:transparent;border:0;color:inherit;cursor:pointer;padding:4px 0">Subscribe →</button>
+        </form>
+        <p style="margin:10px 0 0;font-size:13px;min-height:18px">{{ subscribeNote }}</p>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px 24px;padding:24px 0">
+      <nav aria-label="Footer">
+        <ul style="display:flex;flex-wrap:wrap;gap:8px 28px;margin:0;padding:0;list-style:none">
+          <li><a href="#coffee" style="font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;border-bottom:2px solid transparent;padding-bottom:2px;transition:border-color .3s ease" style-hover="border-bottom-color:#c5d9f5">Coffee</a></li>
+          <li><a href="#bar" style="font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;border-bottom:2px solid transparent;padding-bottom:2px;transition:border-color .3s ease" style-hover="border-bottom-color:#c5d9f5">Bar</a></li>
+          <li><a href="#story" style="font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;border-bottom:2px solid transparent;padding-bottom:2px;transition:border-color .3s ease" style-hover="border-bottom-color:#c5d9f5">Story</a></li>
+          <li><a href="#visit" style="font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;border-bottom:2px solid transparent;padding-bottom:2px;transition:border-color .3s ease" style-hover="border-bottom-color:#c5d9f5">Visit</a></li>
+        </ul>
+      </nav>
+      <p style="font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;margin:0">© 2026 Hinterhof Coffee · Roasted in Kreuzberg</p>
+    </div>
+
+    <svg viewBox="0 0 1000 172" aria-hidden="true" style="margin-top:8px;margin-bottom:-3%;width:100%">
+      <text x="0" y="155" textLength="1000" lengthAdjust="spacingAndGlyphs" font-size="200" fill="currentColor" font-family="Bagel Fat One, ui-rounded, sans-serif">hinterhof</text>
+    </svg>
+  </div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;numbered&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Layout&quot;},&quot;masthead&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Layout&quot;},&quot;roastScale&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Shelf&quot;}}">
+class Component extends DCLogic {
+  state = { subscribeNote: "" };
+
+  componentDidMount() {
+    const root = this.el || document;
+    this._teardown = [];
+    const header = root.querySelector("[data-header]");
+    if (header) {
+      const onScroll = () => { header.style.boxShadow = window.scrollY > 24 ? "0 2px 0 0 currentColor" : "none"; };
+      onScroll();
+      window.addEventListener("scroll", onScroll, { passive: true });
+      this._teardown.push(() => window.removeEventListener("scroll", onScroll));
+    }
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    this._reveal(root);
+
+    const t0 = Date.now();
+    const tick = () => {
+      if (this._dead) return;
+      if (window.gsap && window.ScrollTrigger) return this._effects(root);
+      if (Date.now() - t0 > 6000) return;
+      this._raf = requestAnimationFrame(tick);
+    };
+    tick();
+  }
+
+  // reveals: threshold check on scroll, so nothing can stay hidden after a jump or fast scroll
+  _reveal(root) {
+    const pending = new Set(Array.from(root.querySelectorAll("[data-reveal]")));
+    pending.forEach((n) => {
+      n.style.transition = "opacity .8s cubic-bezier(.22,1,.36,1), transform .8s cubic-bezier(.22,1,.36,1)";
+      if (n.getBoundingClientRect().top > window.innerHeight * 0.92) {
+        n.style.opacity = "0";
+        n.style.transform = "translate3d(0,2rem,0)";
+      } else {
+        pending.delete(n);
+      }
+    });
+    let queued = false;
+    const flush = () => {
+      queued = false;
+      let i = 0;
+      pending.forEach((n) => {
+        if (n.getBoundingClientRect().top > window.innerHeight * 0.92) return;
+        n.style.transitionDelay = (i++ * 0.08) + "s";
+        n.style.opacity = "1";
+        n.style.transform = "none";
+        pending.delete(n);
+      });
+      if (!pending.size && this._onReveal) {
+        window.removeEventListener("scroll", this._onReveal);
+        window.removeEventListener("resize", this._onReveal);
+      }
+    };
+    this._onReveal = () => { if (!queued) { queued = true; requestAnimationFrame(flush); } };
+    window.addEventListener("scroll", this._onReveal, { passive: true });
+    window.addEventListener("resize", this._onReveal);
+    this._teardown.push(() => {
+      window.removeEventListener("scroll", this._onReveal);
+      window.removeEventListener("resize", this._onReveal);
+    });
+    flush();
+  }
+
+  _effects(root, attempt) {
+    if (this._dead) return;
+    const { gsap, ScrollTrigger, Lenis } = window;
+    gsap.registerPlugin(ScrollTrigger);
+    this._triggers = [];
+    const track = (t) => { if (t) this._triggers.push(t); return t; };
+
+    if (Lenis && !window.__hofLenis) {
+      const lenis = new Lenis({ duration: 1.05, wheelMultiplier: 0.9, smoothWheel: true });
+      window.__hofLenis = lenis;
+      lenis.on("scroll", ScrollTrigger.update);
+      const raf = (t) => lenis.raf(t * 1000);
+      gsap.ticker.add(raf);
+      gsap.ticker.lagSmoothing(0);
+      this._teardown.push(() => { gsap.ticker.remove(raf); lenis.destroy(); window.__hofLenis = null; });
+    }
+    const lenis = window.__hofLenis;
+    if (lenis && !this._anchorsBound) {
+      this._anchorsBound = true;
+      root.querySelectorAll('a[href^="#"]').forEach((a) => {
+        const onClick = (e) => {
+          const target = root.querySelector(a.getAttribute("href"));
+          if (!target) return;
+          e.preventDefault();
+          lenis.scrollTo(target, { offset: -72, duration: 1.15 });
+        };
+        a.addEventListener("click", onClick);
+        this._teardown.push(() => a.removeEventListener("click", onClick));
+      });
+    }
+
+    const art = root.querySelector("[data-parallax]");
+    if (art) track(gsap.to(art, { yPercent: -14, ease: "none", scrollTrigger: { trigger: art, start: "top bottom", end: "bottom top", scrub: .6 } }).scrollTrigger);
+
+    const band = root.querySelector("[data-hscroll]");
+    if (band && band.parentElement) {
+      track(gsap.fromTo(band, { xPercent: -18 }, { xPercent: 8, ease: "none",
+        scrollTrigger: { trigger: band.parentElement, start: "top bottom", end: "bottom top", scrub: .5 } }).scrollTrigger);
+    }
+
+    root.querySelectorAll("[data-count]").forEach((el) => {
+      const raw = el.getAttribute("data-count");
+      const o = { v: 0 };
+      const done = () => { el.textContent = raw; };
+      const tween = gsap.to(o, {
+        v: parseFloat(raw), duration: 1.5, ease: "power2.out",
+        scrollTrigger: { trigger: el, start: "top 94%", once: true },
+        onUpdate: () => { el.textContent = String(Math.round(o.v)).padStart(raw.length, "0"); },
+        onComplete: done,
+      });
+      tween.eventCallback("onInterrupt", done);
+      track(tween.scrollTrigger);
+    });
+
+    const marquee = root.querySelector("[data-marquee]");
+    if (marquee) {
+      let cur = 1;
+      track(ScrollTrigger.create({
+        trigger: document.body, start: "top top", end: "bottom bottom",
+        onUpdate: (self) => {
+          const target = 1 + Math.min(Math.abs(self.getVelocity()) / 1400, 2.2);
+          cur += (target - cur) * 0.18;
+          marquee.style.animationDuration = (34 / cur).toFixed(2) + "s";
+        },
+      }));
+    }
+
+    ScrollTrigger.refresh();
+    // self-heal: a sibling instance unmounting can wipe triggers, so rebuild once if they vanish
+    const n = (attempt || 0);
+    if (n < 3) {
+      this._heal = setTimeout(() => {
+        if (this._dead || !document.contains(root)) return;
+        if (window.ScrollTrigger.getAll().length === 0) this._effects(root, n + 1);
+      }, 900);
+    }
+  }
+
+  componentWillUnmount() {
+    this._dead = true;
+    if (this._raf) cancelAnimationFrame(this._raf);
+    if (this._heal) clearTimeout(this._heal);
+    (this._triggers || []).forEach((t) => { try { t.kill(); } catch (e) {} });
+    (this._teardown || []).forEach((fn) => { try { fn(); } catch (e) {} });
+  }
+
+  // Berlin opening hours, index = day (0 = Sunday)
+  _hours = [[10, 17], [7.5, 18], [7.5, 18], [7.5, 18], [7.5, 18], [7.5, 18], [9, 18]];
+
+  _openStatus() {
+    const fmt = (h) => String(Math.floor(h)).padStart(2, "0") + ":" + String(Math.round((h % 1) * 60)).padStart(2, "0");
+    const names = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const berlin = new Date(new Date().toLocaleString("en-US", { timeZone: "Europe/Berlin" }));
+    const day = berlin.getDay();
+    const now = berlin.getHours() + berlin.getMinutes() / 60;
+    const [open, close] = this._hours[day];
+    if (now >= open && now < close) return "Open now — until " + fmt(close) + " Berlin time";
+    for (let i = now < open ? 0 : 1; i < 8; i++) {
+      const d = (day + i) % 7;
+      const [o] = this._hours[d];
+      return "Closed — opens " + (i === 0 ? "today" : i === 1 ? "tomorrow" : names[d]) + " at " + fmt(o);
+    }
+  }
+
+  renderVals() {
+    return {
+      openStatus: this._openStatus(),
+      numbered: this.props.numbered ?? true,
+      masthead: this.props.masthead ?? false,
+      roastScale: this.props.roastScale ?? true,
+      subscribeNote: this.state.subscribeNote,
+      onSubscribe: (e) => {
+        e.preventDefault();
+        this.setState({ subscribeNote: "On the list. One mail a month, nothing else." });
+      },
+    };
+  }
+}
+</script>
+</body>
+</html>
