@@ -2,10 +2,11 @@ import { site } from "@/lib/site";
 import Reveal from "./Reveal";
 import OpenStatus from "./OpenStatus";
 import ArchMark from "./ArchMark";
+import VisitMotion from "./VisitMotion";
 
 export default function Visit() {
   return (
-    <section id="visit" className="visit-section section-shell">
+    <VisitMotion>
       <div className="site-container">
         <Reveal className="section-heading">
           <div>
@@ -84,7 +85,7 @@ export default function Visit() {
               </p>
             </div>
           </Reveal>
-          <Reveal className="visit-information">
+          <Reveal className="visit-information" delay={0.14}>
             <p className="label">Your next coffee is here</p>
             <address>
               <span className="display">
@@ -126,6 +127,6 @@ export default function Visit() {
           </Reveal>
         </div>
       </div>
-    </section>
+    </VisitMotion>
   );
 }
