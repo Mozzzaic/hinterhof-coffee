@@ -308,8 +308,10 @@
   aspect-ratio: 1.25;
   border-radius: 1rem 18rem 1rem 18rem;
   overflow: clip;
+  clip-path: inset(0 round 1rem 18rem 1rem 18rem);
   contain: paint;
   transform: translateZ(0);
+  backface-visibility: hidden;
 }
 .poster-image-outline {
   position: absolute;
@@ -937,11 +939,9 @@
   .footer-hallo:hover span {
     transform: translate(4px, -4px);
   }
-  .poster-image-crop img,
   .story-photo img {
     transition: transform 0.7s var(--ease-expo);
   }
-  .poster-image-crop:hover img,
   .story-photo:hover img {
     transform: scale(1.05);
   }
