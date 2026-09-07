@@ -312,12 +312,14 @@
   contain: paint;
   background: var(--color-ink-deep);
 }
-/* Keep the mask stationary. Zoom the complete, isolated duotone composition
-   (ground, photo and tint) together, never the blending photo on its own. */
+/* Overscan the whole duotone so pointer travel never exposes an image edge. */
 .poster-image-artwork {
   position: absolute;
-  inset: 0;
-  transform: scale(1);
+  inset: -6%;
+  transform: translate(
+    calc(var(--scene-x, 0) * -2%),
+    calc(var(--scene-y, 0) * -2%)
+  );
   transition: transform 0.7s var(--ease-expo);
 }
 .poster-image-outline {
@@ -331,6 +333,96 @@
 }
 .poster-image figcaption {
   margin: 1.25rem 0 0 1.75rem;
+}
+.poster-line {
+  display: block;
+  overflow: clip;
+  padding-bottom: 0.15em;
+  margin-bottom: -0.15em;
+}
+.poster-line > span {
+  display: block;
+}
+/* The printed layers drift independently; clipping always stays on the outer mask. */
+@keyframes poster-line-in {
+  from {
+    transform: translateY(115%) rotate(3deg);
+  }
+  to {
+    transform: translateY(0) rotate(0);
+  }
+}
+@keyframes poster-drift {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -1.5%;
+  }
+}
+@keyframes poster-frame-drift {
+  0%,
+  100% {
+    rotate: -2deg;
+  }
+  50% {
+    rotate: 2deg;
+  }
+}
+@keyframes poster-pour-flow {
+  to {
+    stroke-dashoffset: -22;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .poster-wordmark {
+    overflow: clip;
+  }
+  .poster-wordmark svg {
+    animation: poster-line-in 0.7s var(--ease-expo) both;
+  }
+  .poster-line > span {
+    animation: poster-line-in 0.7s var(--ease-expo) 0.14s both;
+  }
+  .poster-line:nth-child(2) > span {
+    animation-delay: 0.21s;
+  }
+  .poster-line:nth-child(3) > span {
+    animation-delay: 0.28s;
+  }
+  .poster-image {
+    animation: rise 0.7s var(--ease-expo) 0.21s both;
+  }
+  .poster-aside {
+    animation: rise 0.7s var(--ease-expo) 0.35s both;
+  }
+  .poster-image-artwork {
+    animation: poster-drift 8s var(--ease-expo) infinite;
+  }
+  .poster-image-outline {
+    animation: poster-frame-drift 8s var(--ease-expo) infinite;
+    transform: translate(
+      calc(var(--scene-x, 0) * 12px),
+      calc(var(--scene-y, 0) * 8px)
+    );
+    transition: transform 0.7s var(--ease-expo);
+  }
+  .poster-stamp {
+    animation: poster-drift 6s var(--ease-expo) infinite;
+    transform: translate(
+      calc(var(--scene-x, 0) * 18px),
+      calc(var(--scene-y, 0) * 12px)
+    );
+    transition: transform 0.7s var(--ease-expo);
+  }
+  .poster-pour path[stroke-dasharray] {
+    animation: poster-pour-flow 0.7s var(--ease-expo) infinite;
+  }
+  .poster-hero[data-motion-paused="true"] *,
+  .poster-hero[data-motion-paused="true"] *::after {
+    animation-play-state: paused;
+  }
 }
 .poster-stamp {
   width: 7.375rem;
@@ -965,9 +1057,6 @@
   }
   .footer-hallo:hover span {
     transform: translate(4px, -4px);
-  }
-  .poster-image-crop:hover .poster-image-artwork {
-    transform: scale(1.05);
   }
   .story-photo img {
     transition: transform 0.7s var(--ease-expo);

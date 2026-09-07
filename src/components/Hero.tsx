@@ -4,16 +4,17 @@ import { site } from "@/lib/site";
 import { PourOver, ArcText } from "./Illustration";
 import ArchMark from "./ArchMark";
 import OpenStatus from "./OpenStatus";
+import HeroMotion from "./HeroMotion";
 
 export default function Hero() {
   return (
-    <section id="top" className="poster-hero section-shell">
+    <HeroMotion>
       <div className="site-container">
         <div className="poster-credits label">
           <span>Independent coffee bar & roastery</span>
           <span>Kreuzberg, Berlin · Since {site.founded}</span>
         </div>
-        <h1 className="poster-wordmark animate-rise">
+        <h1 className="poster-wordmark">
           <span className="sr-only">Hinterhof Coffee</span>
           <svg viewBox="0 0 1000 185" aria-hidden="true">
             <text
@@ -30,14 +31,18 @@ export default function Hero() {
           </svg>
         </h1>
         <div className="poster-scene">
-          <div className="poster-intro animate-rise">
+          <div className="poster-intro">
             <p className="label">A little off the beaten path.</p>
             <h2 className="display">
-              good things
-              <br />
-              happen
-              <br />
-              out back.
+              <span className="poster-line">
+                <span>good things</span>
+              </span>
+              <span className="poster-line">
+                <span>happen</span>
+              </span>
+              <span className="poster-line">
+                <span>out back.</span>
+              </span>
             </h2>
             <p className="poster-description">
               Small-batch coffee. A slower morning. <br />
@@ -47,7 +52,7 @@ export default function Hero() {
               Find the courtyard <span aria-hidden="true">↗</span>
             </Link>
           </div>
-          <figure className="poster-image animate-rise">
+          <figure className="poster-image">
             <div className="poster-image-outline" aria-hidden="true" />
             <div className="poster-image-crop">
               <div className="duotone poster-image-artwork">
@@ -74,7 +79,7 @@ export default function Hero() {
               Roasted here. Poured here. Stay a while.
             </figcaption>
           </figure>
-          <aside className="poster-aside animate-rise">
+          <aside className="poster-aside">
             <PourOver className="poster-pour" />
             <p className="display">
               take the
@@ -104,6 +109,6 @@ export default function Hero() {
           </Link>
         </div>
       </div>
-    </section>
+    </HeroMotion>
   );
 }
