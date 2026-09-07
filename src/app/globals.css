@@ -307,6 +307,9 @@
   position: relative;
   aspect-ratio: 1.25;
   border-radius: 1rem 18rem 1rem 18rem;
+  overflow: clip;
+  contain: paint;
+  transform: translateZ(0);
 }
 .poster-image-outline {
   position: absolute;
@@ -934,11 +937,11 @@
   .footer-hallo:hover span {
     transform: translate(4px, -4px);
   }
-  .poster-image img,
+  .poster-image-crop img,
   .story-photo img {
     transition: transform 0.7s var(--ease-expo);
   }
-  .poster-image:hover img,
+  .poster-image-crop:hover img,
   .story-photo:hover img {
     transform: scale(1.05);
   }
