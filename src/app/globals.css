@@ -382,108 +382,136 @@
   margin: 0;
 }
 
-/* ---- The shelf becomes an actual tasting counter ----------------------- */
-.coffee-section {
-  background: var(--color-chalk);
-}
-.coffee-explorer {
+/* ---- Four visible rituals: the complete duotone moves inside a fixed mask. ---- */
+.ritual-shelf {
   display: grid;
-  grid-template-columns: 1fr 3fr;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 2rem;
   border-top: 2px solid;
-  border-bottom: 2px solid;
-  padding: 2.5rem 0;
-  gap: 2.5rem;
+  padding-block: 2rem;
 }
-.coffee-selection {
+.ritual-card {
+  min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
 }
-.coffee-choice {
+.ritual-index {
   display: flex;
-  width: 100%;
-  align-items: center;
-  text-align: left;
-  gap: 1rem;
-  padding: 1.25rem 1rem;
-  border-radius: 9999px;
-  cursor: pointer;
-  transition:
-    background 0.3s var(--ease-expo),
-    color 0.3s var(--ease-expo);
+  justify-content: space-between;
+  gap: 0.5rem;
 }
-.coffee-choice[aria-pressed="true"] {
-  background: var(--color-ink);
-  color: var(--color-chalk);
-}
-.coffee-choice-name {
-  display: block;
-  font-size: clamp(1.25rem, 2.1vw, 1.875rem);
-}
-.coffee-choice-note {
-  font-size: 0.8125rem;
-  line-height: 1.25;
-  display: block;
-  margin-top: 0.5rem;
-}
-.coffee-choice-arrow {
-  margin-left: auto;
-  font-size: 1.25rem;
-}
-.coffee-selection-foot {
-  margin-top: auto;
-  padding: 1.5rem 1rem 0;
-  line-height: 1.7;
-}
-.coffee-profile {
-  display: grid;
-  grid-template-columns: 1.2fr 1fr;
-  align-items: center;
-  gap: 2.5rem;
-  border-left: 2px solid;
-  padding-left: 2.5rem;
-  min-width: 0;
-}
-.coffee-portrait {
+.ritual-portrait {
   position: relative;
-  min-width: 0;
-  animation: rise 0.7s var(--ease-expo);
+  margin-block: 1.5rem 2rem;
 }
-.coffee-portrait-image {
+.ritual-mask {
   position: relative;
   aspect-ratio: 1;
   border-radius: 9999px;
+  overflow: clip;
+  clip-path: circle(50%);
+  contain: paint;
+  background: var(--color-ink-deep);
 }
-.coffee-price {
+.ritual-artwork {
+  position: absolute;
+  inset: 0;
+  transform: scale(1);
+  transition: transform 0.7s var(--ease-expo);
+}
+.ritual-price {
   position: absolute;
   right: 0;
   bottom: 0;
-  width: 7.375rem;
-  height: 7.375rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 6rem;
+  height: 6rem;
   border: 2px solid var(--color-chalk);
   border-radius: 9999px;
   background: var(--color-ink);
   color: var(--color-chalk);
+  font-size: 2.25rem;
+  transform: rotate(8deg);
+  transition: transform 0.7s var(--ease-expo);
+}
+.ritual-card:nth-child(even) .ritual-price {
+  transform: rotate(-8deg);
+}
+.ritual-title h3 {
+  font-size: clamp(1.875rem, 2.8vw, 2.75rem);
+  text-transform: lowercase;
+  margin-block: 1rem 0.75rem;
+}
+.ritual-title > p:last-child {
+  font-size: 0.9375rem;
+}
+.ritual-description {
+  margin-top: 1.5rem;
+  line-height: 1.4;
+}
+.ritual-card .flavour-notes {
+  margin-top: auto;
+  padding-top: 1.5rem;
+}
+.ritual-card .roast-scale {
+  padding-bottom: 0;
+  flex-wrap: wrap;
+}
+.ritual-pickup {
   display: flex;
   align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 0.5rem;
-  font-size: 2.75rem;
-  transform: rotate(8deg);
+  justify-content: space-between;
+  gap: 2rem;
+  border-top: 2px solid;
+  padding-top: 1.5rem;
 }
-.coffee-profile-copy {
-  animation: rise 0.7s var(--ease-expo);
-  min-width: 0;
+.ritual-pickup > div > p + p {
+  margin-top: 0.75rem;
 }
-.coffee-profile-copy h3 {
-  font-size: clamp(2rem, 3vw, 2.75rem);
-  margin: 1rem 0 1.5rem;
-  overflow-wrap: anywhere;
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .ritual-card:hover .ritual-artwork {
+    transform: scale(1.05);
+  }
+  .ritual-card:hover .ritual-price {
+    transform: translateY(-0.5rem) rotate(0deg);
+  }
 }
-.coffee-profile-description {
-  font-size: 1.125rem;
-  line-height: 1.4;
+@media (max-width: 63.999rem) {
+  .ritual-shelf {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2.5rem 2rem;
+  }
+  .ritual-title h3 {
+    font-size: 2.75rem;
+  }
+}
+@media (max-width: 39.999rem) {
+  .ritual-shelf {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .ritual-card + .ritual-card {
+    border-top: 2px solid;
+    padding-top: 2rem;
+  }
+  .ritual-portrait {
+    width: 100%;
+    max-width: 18rem;
+    align-self: center;
+  }
+  .ritual-pickup {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.5rem;
+  }
+}
+
+/* ---- Shared coffee details --------------------------------------------- */
+.coffee-section {
+  background: var(--color-chalk);
 }
 .flavour-notes {
   display: flex;
@@ -519,11 +547,6 @@
 }
 .roast-dots [data-filled="true"] {
   background: currentColor;
-}
-.coffee-profile .pill-button {
-  width: 100%;
-  padding-inline: 1.25rem;
-  letter-spacing: 0.12em;
 }
 .shelf-footnote {
   display: flex;
@@ -937,9 +960,6 @@
     color: var(--color-chalk);
     transform: translateY(-2px);
   }
-  .coffee-choice:not([aria-pressed="true"]):hover {
-    background: var(--color-sky);
-  }
   .menu-filters button:not([aria-pressed="true"]):hover {
     background: var(--color-ink-deep);
   }
@@ -974,22 +994,6 @@
   }
   .poster-baseline {
     flex-wrap: wrap;
-  }
-  .coffee-explorer {
-    grid-template-columns: 1fr 2.5fr;
-    gap: 1.5rem;
-  }
-  .coffee-profile {
-    gap: 1.5rem;
-    padding-left: 1.5rem;
-  }
-  .coffee-choice {
-    padding-inline: 0.75rem;
-    gap: 0.5rem;
-  }
-  .coffee-price {
-    width: 6rem;
-    height: 6rem;
   }
   .bar-layout,
   .story-layout {
@@ -1042,20 +1046,6 @@
   .poster-image-crop {
     aspect-ratio: 0.8;
   }
-  .coffee-explorer {
-    grid-template-columns: 1fr;
-  }
-  .coffee-selection {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-  }
-  .coffee-selection-foot {
-    display: none;
-  }
-  .coffee-profile {
-    border-left: 0;
-    padding-left: 0;
-  }
   .bar-layout,
   .story-layout,
   .visit-layout {
@@ -1086,8 +1076,6 @@
   }
 }
 /* Display names retain the lowercase voice of the original identity. */
-.coffee-choice-name,
-.coffee-profile-copy h3,
 .drink-item dt,
 .visit-information address > .display {
   text-transform: lowercase;
@@ -1217,52 +1205,6 @@
     display: flex;
     align-items: center;
     min-height: 2.75rem;
-  }
-  .coffee-explorer {
-    gap: 1.5rem;
-    padding: 1.5rem 0;
-  }
-  .coffee-selection {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.5rem;
-  }
-  .coffee-choice {
-    min-width: 0;
-    min-height: 3.5rem;
-    padding: 0.75rem;
-    justify-content: center;
-    gap: 0.5rem;
-    border: 1px solid var(--color-ink);
-  }
-  .coffee-choice > .label,
-  .coffee-choice-note,
-  .coffee-choice-arrow {
-    display: none;
-  }
-  .coffee-choice-name {
-    font-size: 1.25rem;
-  }
-  .coffee-profile {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-  .coffee-portrait {
-    width: 80%;
-    max-width: 18rem;
-    margin-inline: auto;
-  }
-  .coffee-price {
-    width: 6rem;
-    height: 6rem;
-    right: -0.5rem;
-    font-size: 2.25rem;
-  }
-  .coffee-profile-copy h3 {
-    font-size: 2.75rem;
-    margin: 0.75rem 0 1rem;
-  }
-  .coffee-profile-description {
-    font-size: 1rem;
   }
   .flavour-notes {
     margin: 1rem 0;
