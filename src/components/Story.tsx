@@ -3,21 +3,23 @@ import Link from "next/link";
 import { stats } from "@/lib/site";
 import Counter from "./Counter";
 import Reveal from "./Reveal";
-import ArchMark from "./ArchMark";
+import StoryMark from "./StoryMark";
 
 export default function Story() {
   return (
     <section id="story" className="story-section section-shell">
       <div className="site-container">
-        <Reveal className="story-manifesto">
-          <p className="label">03 / A little further back, since 2016</p>
-          <h2 className="display">
-            better coffee.
-            <br />
-            fewer shortcuts.
-          </h2>
-          <ArchMark className="story-arch" />
-        </Reveal>
+        <div className="story-manifesto">
+          <Reveal>
+            <p className="label">03 / A little further back, since 2016</p>
+            <h2 className="display">
+              better coffee.
+              <br />
+              fewer shortcuts.
+            </h2>
+          </Reveal>
+          <StoryMark />
+        </div>
         <div className="story-layout">
           <Reveal as="figure" className="story-photo">
             <div className="duotone story-photo-crop">

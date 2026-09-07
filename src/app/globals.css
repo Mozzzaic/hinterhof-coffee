@@ -777,9 +777,13 @@
 .story-arch {
   position: absolute;
   height: 9rem;
-  width: auto;
+  aspect-ratio: 32 / 34;
   right: 3rem;
   bottom: 1rem;
+}
+.story-arch svg {
+  width: 100%;
+  height: 100%;
   transform: rotate(10deg);
 }
 .story-layout {
