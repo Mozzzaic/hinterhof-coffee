@@ -12,12 +12,13 @@ import { gsap, ScrollTrigger } from "@/lib/gsap";
  * than its own rAF loop. Without both halves, scrubbed animations lag a frame
  * or two behind the content they are pinned to.
  *
- * Under reduced motion Lenis never starts and ScrollTrigger simply runs off
- * native scroll.
+ * Touch pointers and reduced motion use native scrolling.
  */
 export default function SmoothScroll() {
   useEffect(() => {
-    const query = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const query = window.matchMedia(
+      "(prefers-reduced-motion: reduce), (pointer: coarse)",
+    );
     if (query.matches) return;
 
     const lenis = new Lenis({

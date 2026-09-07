@@ -41,8 +41,8 @@ export const site = {
   /**
    * Machine-readable opening hours for the live status line, indexed by
    * `Date#getDay()` (0 = Sunday) with hours as decimals (7.5 = 07:30).
-   * Keep in sync with `hours` above — this ignores the holiday closures
-   * named in `toursNote`, same gap the design handoff flags for a future pass.
+   * Keep in sync with `hours` above. The status helper also accounts for
+   * the holiday closures listed in `toursNote`.
    */
   weeklyHours: [
     [10, 17],
@@ -56,7 +56,7 @@ export const site = {
 
   transit: "U1 / U8 Kottbusser Tor — 4 minutes on foot",
 
-  mapsQuery: "Kottbusser Tor, 10999 Berlin",
+  mapsQuery: "Oranienstraße 147, 10999 Berlin",
 } as const;
 
 export const nav = [

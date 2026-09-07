@@ -67,24 +67,6 @@
     text-transform: uppercase;
   }
 
-  /* ---- Hero badge -------------------------------------------------------
-     Below `lg` the two hero columns stack, so the badge just pins to the
-     illustration's own corner. From `lg` up they sit side by side: the
-     `top` value tracks the h1's rendered box height (font-size × the
-     .display line-height) plus the tagline paragraph's own top margin, so
-     the badge stays level with that paragraph in the other column at any
-     viewport width — instead of two hardcoded offsets that swap at a
-     breakpoint and visibly jump. */
-  .hero-badge {
-    top: -0.5rem;
-  }
-
-  @media (min-width: 1024px) {
-    .hero-badge {
-      top: calc(clamp(3.5rem, 11vw, 9rem) * 0.88 + 1.5rem);
-    }
-  }
-
   /* ---- Two-colour duotone -----------------------------------------------
      Shadows go to the ink, highlights go to the ground. Photography stops
      fighting the palette and starts looking screen-printed. */
@@ -183,7 +165,7 @@
 }
 
 .animate-marquee {
-  animation: marquee 34s linear infinite;
+  animation: marquee 60s linear infinite;
 }
 
 .animate-spin-slow {
@@ -218,5 +200,1267 @@
   .animate-rise {
     opacity: 1 !important;
     transform: none !important;
+  }
+}
+
+/* ==========================================================================
+   Desktop edition — poster, tasting counter, menu and courtyard guide.
+   Only the existing four inks/surfaces, font families and round/arch motifs.
+   Spacing is composition-specific; no new theme tokens.
+   ========================================================================== */
+.section-shell {
+  padding: 6rem 2.5rem;
+}
+.site-container {
+  max-width: 1400px;
+  margin-inline: auto;
+}
+.pill-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 1rem 1.75rem;
+  border: 2px solid var(--color-ink);
+  border-radius: 9999px;
+  background: var(--color-ink);
+  color: var(--color-chalk);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  transition:
+    background 0.3s var(--ease-expo),
+    color 0.3s var(--ease-expo),
+    transform 0.3s var(--ease-expo);
+}
+.pill-button span {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+.pill-outline {
+  background: transparent;
+  color: var(--color-ink);
+}
+.section-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 3rem;
+  padding-bottom: 3rem;
+}
+.section-heading h2 {
+  font-size: clamp(2.75rem, 6.5vw, 5.5rem);
+  margin-top: 1.5rem;
+}
+.section-heading-note {
+  max-width: 30ch;
+  font-size: 1.125rem;
+  line-height: 1.4;
+  padding-bottom: 0.25rem;
+}
+.link-draw[aria-current="location"]::after {
+  transform: scaleX(1);
+}
+
+/* ---- First impression: oversized wordmark and a three-part still life --- */
+.poster-hero {
+  padding-top: 0.5rem;
+  padding-bottom: 0;
+}
+.poster-credits {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 2px solid;
+  padding-top: 1rem;
+}
+.poster-wordmark {
+  margin-top: 1rem;
+}
+.poster-wordmark svg {
+  display: block;
+  width: 100%;
+}
+.poster-scene {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr 0.55fr;
+  gap: 3rem;
+  align-items: center;
+  padding: 1rem 0 2.5rem;
+}
+.poster-intro h2 {
+  font-size: clamp(2.5rem, 5vw, 4.25rem);
+  margin: 1.5rem 0;
+}
+.poster-description {
+  font-size: 1.125rem;
+  line-height: 1.5;
+  margin-bottom: 1.75rem;
+}
+.poster-image {
+  position: relative;
+  margin: 0;
+  padding: 0.75rem 0.75rem 0 0;
+}
+.poster-image-crop {
+  position: relative;
+  aspect-ratio: 1.25;
+  border-radius: 1rem 18rem 1rem 18rem;
+}
+.poster-image-outline {
+  position: absolute;
+  top: 0;
+  left: 0.75rem;
+  right: 0;
+  bottom: 2.5rem;
+  border: 2px solid var(--color-ink);
+  border-radius: 1rem 18rem 1rem 18rem;
+}
+.poster-image figcaption {
+  margin: 1.25rem 0 0 1.75rem;
+}
+.poster-stamp {
+  width: 7.375rem;
+  height: 7.375rem;
+  position: absolute;
+  right: -0.5rem;
+  top: 0;
+  background: var(--color-ink);
+  color: var(--color-sky);
+  border-radius: 9999px;
+  display: grid;
+  place-items: center;
+}
+.poster-stamp > div {
+  position: absolute;
+  inset: 0.25rem;
+}
+.poster-aside {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.25rem;
+  padding-left: 1rem;
+}
+.poster-pour {
+  width: 7rem;
+  height: 9rem;
+  margin-left: 0.5rem;
+}
+.poster-aside > .display {
+  font-size: 2.25rem;
+}
+.poster-aside .label {
+  line-height: 1.6;
+}
+.poster-small-rule {
+  width: 2rem;
+  border-top: 2px solid;
+}
+.poster-baseline {
+  border-top: 2px solid;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.5rem 0;
+}
+.poster-baseline > p {
+  margin: 0;
+}
+
+/* ---- The shelf becomes an actual tasting counter ----------------------- */
+.coffee-section {
+  background: var(--color-chalk);
+}
+.coffee-explorer {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  padding: 2.5rem 0;
+  gap: 2.5rem;
+}
+.coffee-selection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.coffee-choice {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  text-align: left;
+  gap: 1rem;
+  padding: 1.25rem 1rem;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition:
+    background 0.3s var(--ease-expo),
+    color 0.3s var(--ease-expo);
+}
+.coffee-choice[aria-pressed="true"] {
+  background: var(--color-ink);
+  color: var(--color-chalk);
+}
+.coffee-choice-name {
+  display: block;
+  font-size: clamp(1.25rem, 2.1vw, 1.875rem);
+}
+.coffee-choice-note {
+  font-size: 0.8125rem;
+  line-height: 1.25;
+  display: block;
+  margin-top: 0.5rem;
+}
+.coffee-choice-arrow {
+  margin-left: auto;
+  font-size: 1.25rem;
+}
+.coffee-selection-foot {
+  margin-top: auto;
+  padding: 1.5rem 1rem 0;
+  line-height: 1.7;
+}
+.coffee-profile {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  align-items: center;
+  gap: 2.5rem;
+  border-left: 2px solid;
+  padding-left: 2.5rem;
+  min-width: 0;
+}
+.coffee-portrait {
+  position: relative;
+  min-width: 0;
+  animation: rise 0.7s var(--ease-expo);
+}
+.coffee-portrait-image {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 9999px;
+}
+.coffee-price {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 7.375rem;
+  height: 7.375rem;
+  border: 2px solid var(--color-chalk);
+  border-radius: 9999px;
+  background: var(--color-ink);
+  color: var(--color-chalk);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 2.75rem;
+  transform: rotate(8deg);
+}
+.coffee-profile-copy {
+  animation: rise 0.7s var(--ease-expo);
+  min-width: 0;
+}
+.coffee-profile-copy h3 {
+  font-size: clamp(2rem, 3vw, 2.75rem);
+  margin: 1rem 0 1.5rem;
+  overflow-wrap: anywhere;
+}
+.coffee-profile-description {
+  font-size: 1.125rem;
+  line-height: 1.4;
+}
+.flavour-notes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1.5rem 0;
+}
+.flavour-notes li {
+  border: 1px solid;
+  border-radius: 9999px;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.8125rem;
+}
+.roast-scale {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border-top: 1px solid;
+  padding: 1rem 0 1.5rem;
+}
+.roast-scale > .label:last-child {
+  margin-left: auto;
+}
+.roast-dots {
+  display: flex;
+  gap: 0.25rem;
+}
+.roast-dots span {
+  width: 0.5rem;
+  height: 0.5rem;
+  border: 1px solid;
+  border-radius: 9999px;
+}
+.roast-dots [data-filled="true"] {
+  background: currentColor;
+}
+.coffee-profile .pill-button {
+  width: 100%;
+  padding-inline: 1.25rem;
+  letter-spacing: 0.12em;
+}
+.shelf-footnote {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  padding-top: 1.5rem;
+  align-items: baseline;
+}
+.shelf-footnote p {
+  max-width: 58ch;
+  font-size: 0.9375rem;
+}
+
+/* ---- A compact printed menu with a persistent illustrated margin ------- */
+.bar-section {
+  background: var(--color-ink);
+  color: var(--color-sky);
+}
+.bar-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.7fr;
+  gap: 6rem;
+  align-items: start;
+}
+.bar-intro {
+  position: sticky;
+  top: 7rem;
+}
+.bar-intro h2 {
+  font-size: clamp(2.75rem, 6.5vw, 5.5rem);
+  margin: 1.5rem 0;
+}
+.bar-intro > p:not(.label) {
+  font-size: 1.125rem;
+  max-width: 30ch;
+  line-height: 1.4;
+}
+.bar-machine {
+  width: 12rem;
+  margin: 1.5rem auto;
+}
+.bar-note {
+  border-top: 1px solid;
+  padding-top: 1.25rem;
+}
+.bar-note p {
+  font-size: 0.9375rem;
+  line-height: 1.4;
+  margin-top: 0.75rem;
+}
+.menu-heading {
+  display: flex;
+  justify-content: space-between;
+  border-top: 6px solid;
+  padding: 1.25rem 0;
+}
+.menu-filters {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0 0 1.75rem;
+}
+.menu-filters button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  border: 1px solid;
+  border-radius: 9999px;
+  padding: 0.625rem 1.125rem;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  cursor: pointer;
+  transition:
+    background 0.3s var(--ease-expo),
+    color 0.3s var(--ease-expo);
+}
+.menu-filters button[aria-pressed="true"] {
+  background: var(--color-sky);
+  color: var(--color-ink);
+  border-color: var(--color-sky);
+}
+.menu-filters button span {
+  font-size: 0.6875rem;
+}
+.drinks-list {
+  min-height: 38rem;
+}
+.drink-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.75rem 2rem;
+  border-top: 1px solid;
+  padding: 1.25rem 0;
+  animation: rise 0.7s var(--ease-expo);
+}
+.drink-item dt {
+  font-size: clamp(1.75rem, 3.2vw, 3.25rem);
+}
+.drink-price {
+  font-size: 1.5rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.drink-meta {
+  grid-column: 1/-1;
+  display: flex;
+  gap: 0.75rem;
+}
+.drink-description {
+  grid-column: 1/-1;
+  font-size: 0.9375rem;
+  line-height: 1.4;
+  max-width: 62ch;
+}
+.menu-end {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 2px solid;
+}
+.bar-section :focus-visible,
+.site-footer :focus-visible {
+  outline-color: var(--color-sky);
+}
+
+/* ---- The roastery: manifesto, photograph, facts ------------------------- */
+.story-manifesto {
+  position: relative;
+  border-top: 2px solid;
+  padding-top: 1.5rem;
+}
+.story-manifesto h2 {
+  font-size: clamp(3.5rem, 11vw, 9rem);
+  margin: 2rem 0 3rem;
+}
+.story-arch {
+  position: absolute;
+  height: 9rem;
+  width: auto;
+  right: 3rem;
+  bottom: 1rem;
+  transform: rotate(10deg);
+}
+.story-layout {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 6rem;
+  align-items: center;
+}
+.story-photo {
+  margin: 0;
+}
+.story-photo-crop {
+  position: relative;
+  aspect-ratio: 1.2;
+  border-radius: 1rem 18rem 1rem 18rem;
+}
+.story-photo figcaption {
+  margin-top: 1.25rem;
+}
+.story-copy p {
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 1.25rem;
+  max-width: 48ch;
+}
+.story-copy .story-lede {
+  font-size: 2.25rem;
+  line-height: 1.14;
+  font-weight: 500;
+}
+.story-copy .pill-button {
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+.story-copy .label {
+  font-size: 0.6875rem;
+}
+.story-numbers {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 2px solid;
+  margin-top: 4rem;
+  padding-top: 2rem;
+}
+.story-numbers > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+}
+.story-numbers > div + div {
+  border-left: 2px solid;
+}
+.story-numbers .display {
+  font-size: clamp(2.75rem, 6.5vw, 5.5rem);
+}
+.story-numbers .label {
+  max-width: 12ch;
+}
+
+/* ---- Wayfinding is a readable sequence, not a decorative map ----------- */
+.visit-section {
+  background: var(--color-chalk);
+}
+.visit-layout {
+  display: grid;
+  grid-template-columns: 1.7fr 1fr;
+  gap: 4rem;
+}
+.courtyard-guide {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-sky);
+  padding: 2rem;
+  border-radius: 1rem 18rem 1rem 18rem;
+}
+.guide-heading {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding-right: 4rem;
+}
+.guide-heading span:last-child {
+  max-width: 15ch;
+}
+.courtyard-route {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto 1fr;
+  align-items: start;
+  gap: 0.5rem;
+  margin: 3rem 0 2.5rem;
+}
+.route-stop {
+  text-align: center;
+  min-width: 0;
+}
+.route-number {
+  display: block;
+  margin-bottom: 1rem;
+}
+.route-arch {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 9rem;
+  border: 2px solid;
+  border-radius: 14rem 14rem 1rem 1rem;
+}
+.route-destination .route-arch {
+  background: var(--color-ink);
+  color: var(--color-chalk);
+  border-color: var(--color-ink);
+}
+.route-stop h3 {
+  font-size: 1.875rem;
+  margin-top: 1.5rem;
+}
+.route-stop p {
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  margin-top: 0.75rem;
+}
+.route-arrow {
+  font-size: 1.5rem;
+  margin-top: 6rem;
+}
+.guide-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 2rem;
+  margin-top: auto;
+  padding-bottom: 1.5rem;
+}
+.guide-bottom .display {
+  font-size: 2.75rem;
+}
+.guide-bottom > p:last-child {
+  font-size: 0.9375rem;
+}
+.visit-information {
+  padding-top: 0.25rem;
+}
+.visit-information address {
+  font-style: normal;
+  margin-top: 1.5rem;
+}
+.visit-information address > .display {
+  font-size: clamp(2.5rem, 5vw, 4.25rem);
+}
+.visit-information address p {
+  font-size: 1rem;
+  line-height: 1.4;
+  margin-top: 1rem;
+}
+.visit-information > .label {
+  margin-top: 0;
+}
+.visit-hours {
+  margin-top: 1.5rem;
+}
+.visit-hours > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 0;
+  border-top: 1px solid;
+  font-size: 0.9375rem;
+}
+.visit-hours dd {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.visit-transit {
+  font-size: 0.8125rem;
+  margin: 0.75rem 0 1.5rem;
+}
+.tour-link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-block: 2px solid;
+  padding: 1rem 0;
+}
+.tour-link > span:first-child {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.tour-link > span:last-child {
+  font-size: 1.5rem;
+}
+.visit-closure {
+  font-size: 0.8125rem;
+  margin-top: 0.75rem;
+  line-height: 1.4;
+}
+
+/* ---- An honest invitation, with working contact links ------------------ */
+.site-footer {
+  background: var(--color-ink);
+  color: var(--color-sky);
+  padding-bottom: 0;
+  overflow: hidden;
+}
+.footer-top {
+  display: grid;
+  grid-template-columns: 1.7fr 1fr auto;
+  align-items: center;
+  gap: 3rem;
+  padding-bottom: 3rem;
+}
+.footer-hallo {
+  font-size: clamp(2.75rem, 6.5vw, 5.5rem);
+  display: block;
+  margin-top: 1.5rem;
+}
+.footer-hallo span {
+  display: inline-block;
+  transition: transform 0.3s var(--ease-expo);
+}
+.footer-contact {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-size: 1.125rem;
+}
+.footer-contact p {
+  font-size: 0.9375rem;
+  line-height: 1.4;
+  margin-top: 0.75rem;
+}
+.footer-back {
+  border: 1px solid;
+  border-radius: 9999px;
+  width: 9rem;
+  height: 9rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+.footer-back .label {
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+}
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  border-top: 1px solid;
+  padding: 1.5rem 0;
+}
+.footer-bottom nav {
+  display: flex;
+  gap: 1.5rem;
+}
+.footer-wordmark {
+  width: 100%;
+  margin-bottom: -1.5rem;
+}
+
+/* ---- Hover, always using the existing easing --------------------------- */
+@media (hover: hover) {
+  .pill-button:hover {
+    background: var(--color-ink-deep);
+    color: var(--color-chalk);
+    transform: translateY(-2px);
+  }
+  .coffee-choice:not([aria-pressed="true"]):hover {
+    background: var(--color-sky);
+  }
+  .menu-filters button:not([aria-pressed="true"]):hover {
+    background: var(--color-ink-deep);
+  }
+  .footer-hallo:hover span {
+    transform: translate(4px, -4px);
+  }
+  .poster-image img,
+  .story-photo img {
+    transition: transform 0.7s var(--ease-expo);
+  }
+  .poster-image:hover img,
+  .story-photo:hover img {
+    transform: scale(1.05);
+  }
+}
+
+/* ---- Smaller desktop and a safe stacked baseline for the mobile pass --- */
+@media (min-width: 64rem) and (max-width: 79.999rem) {
+  .poster-scene {
+    gap: 2rem;
+    grid-template-columns: 1fr 1.15fr 0.5fr;
+  }
+  .poster-aside {
+    padding-left: 0;
+  }
+  .poster-aside > .display {
+    font-size: 1.875rem;
+  }
+  .poster-intro h2 {
+    font-size: 3.5rem;
+  }
+  .poster-baseline {
+    flex-wrap: wrap;
+  }
+  .coffee-explorer {
+    grid-template-columns: 1fr 2.5fr;
+    gap: 1.5rem;
+  }
+  .coffee-profile {
+    gap: 1.5rem;
+    padding-left: 1.5rem;
+  }
+  .coffee-choice {
+    padding-inline: 0.75rem;
+    gap: 0.5rem;
+  }
+  .coffee-price {
+    width: 6rem;
+    height: 6rem;
+  }
+  .bar-layout,
+  .story-layout {
+    gap: 3rem;
+  }
+  .story-arch {
+    height: 7rem;
+    right: 1rem;
+  }
+  .visit-layout {
+    gap: 2rem;
+    grid-template-columns: 1.4fr 1fr;
+  }
+  .courtyard-guide {
+    padding: 1.5rem;
+  }
+  .route-stop h3 {
+    font-size: 1.25rem;
+  }
+  .guide-bottom {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 1rem;
+  }
+}
+@media (max-width: 63.999rem) {
+  .section-shell {
+    padding: 4rem 1.5rem;
+  }
+  .poster-hero {
+    padding-top: 1rem;
+    padding-bottom: 0;
+  }
+  .poster-credits,
+  .poster-baseline,
+  .shelf-footnote,
+  .footer-bottom {
+    flex-wrap: wrap;
+  }
+  .poster-scene {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+  .poster-aside {
+    display: none;
+  }
+  .poster-intro h2 {
+    font-size: 3.5rem;
+  }
+  .poster-image-crop {
+    aspect-ratio: 0.8;
+  }
+  .coffee-explorer {
+    grid-template-columns: 1fr;
+  }
+  .coffee-selection {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .coffee-selection-foot {
+    display: none;
+  }
+  .coffee-profile {
+    border-left: 0;
+    padding-left: 0;
+  }
+  .bar-layout,
+  .story-layout,
+  .visit-layout {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  .bar-intro {
+    position: static;
+  }
+  .bar-machine {
+    display: none;
+  }
+  .bar-note {
+    margin-top: 1.5rem;
+  }
+  .story-arch {
+    display: none;
+  }
+  .story-numbers > div {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .footer-top {
+    grid-template-columns: 1fr 1fr;
+  }
+  .footer-back {
+    display: none;
+  }
+}
+/* Display names retain the lowercase voice of the original identity. */
+.coffee-choice-name,
+.coffee-profile-copy h3,
+.drink-item dt,
+.visit-information address > .display {
+  text-transform: lowercase;
+}
+
+/* ---- Mobile navigation: a disclosure with generous touch targets -------- */
+.mobile-navigation {
+  position: absolute;
+  inset: 100% 0 auto;
+  background: var(--color-chalk);
+  border-block: 2px solid var(--color-ink);
+  max-height: calc(100dvh - 5rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0.75rem 1.5rem 1.5rem;
+}
+.mobile-navigation-link {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid;
+}
+.mobile-navigation-link .display {
+  font-size: 2.75rem;
+  text-transform: lowercase;
+}
+.mobile-navigation-link > span:last-child {
+  margin-left: auto;
+  font-size: 1.5rem;
+}
+
+/* ---- Phone edition: same identity, composed for a single column ---------
+   Spacing and image proportions adapt to the smaller canvas. The palette,
+   typefaces, existing type sizes, arches and motion curve stay unchanged. */
+@media (max-width: 39.999rem) {
+  .section-shell {
+    padding: 3rem 1.5rem;
+    scroll-margin-top: 5rem;
+  }
+  .site-container,
+  .section-heading > *,
+  .drink-item dt {
+    min-width: 0;
+  }
+  .section-heading {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+    padding-bottom: 2rem;
+  }
+  .section-heading h2 {
+    margin-top: 1rem;
+  }
+  .section-heading-note {
+    max-width: none;
+    font-size: 1rem;
+  }
+  .section-heading-note .label {
+    margin-top: 1rem;
+  }
+  .pill-button {
+    min-height: 3rem;
+    width: 100%;
+    padding: 1rem 1.25rem;
+    gap: 1rem;
+  }
+  .poster-hero {
+    padding-top: 0.5rem;
+    padding-bottom: 0;
+  }
+  .poster-credits {
+    gap: 0.5rem;
+    line-height: 1.5;
+    padding-top: 0.75rem;
+  }
+  .poster-wordmark {
+    margin-top: 0.75rem;
+  }
+  .poster-scene {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 0.75rem 0 1.5rem;
+  }
+  .poster-intro h2 {
+    font-size: 2.75rem;
+    margin: 1rem 0;
+  }
+  .poster-description {
+    font-size: 1rem;
+    margin-bottom: 1.25rem;
+  }
+  .poster-description br {
+    display: none;
+  }
+  .poster-image {
+    margin: 0;
+  }
+  .poster-image-crop {
+    aspect-ratio: 1.4;
+  }
+  .poster-image figcaption {
+    margin: 0.75rem 0 0;
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    line-height: 1.5;
+  }
+  .poster-image-outline {
+    bottom: 2rem;
+  }
+  .poster-stamp {
+    width: 6rem;
+    height: 6rem;
+    right: 0;
+  }
+  .poster-baseline {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 1.25rem 0;
+  }
+  .poster-baseline .label {
+    line-height: 1.6;
+    letter-spacing: 0.12em;
+  }
+  .poster-baseline > a {
+    display: flex;
+    align-items: center;
+    min-height: 2.75rem;
+  }
+  .coffee-explorer {
+    gap: 1.5rem;
+    padding: 1.5rem 0;
+  }
+  .coffee-selection {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
+  }
+  .coffee-choice {
+    min-width: 0;
+    min-height: 3.5rem;
+    padding: 0.75rem;
+    justify-content: center;
+    gap: 0.5rem;
+    border: 1px solid var(--color-ink);
+  }
+  .coffee-choice > .label,
+  .coffee-choice-note,
+  .coffee-choice-arrow {
+    display: none;
+  }
+  .coffee-choice-name {
+    font-size: 1.25rem;
+  }
+  .coffee-profile {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .coffee-portrait {
+    width: 80%;
+    max-width: 18rem;
+    margin-inline: auto;
+  }
+  .coffee-price {
+    width: 6rem;
+    height: 6rem;
+    right: -0.5rem;
+    font-size: 2.25rem;
+  }
+  .coffee-profile-copy h3 {
+    font-size: 2.75rem;
+    margin: 0.75rem 0 1rem;
+  }
+  .coffee-profile-description {
+    font-size: 1rem;
+  }
+  .flavour-notes {
+    margin: 1rem 0;
+  }
+  .shelf-footnote {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .shelf-footnote p {
+    line-height: 1.4;
+  }
+  .bar-layout {
+    gap: 2rem;
+  }
+  .bar-intro h2 {
+    margin: 1rem 0;
+  }
+  .bar-intro > p:not(.label) {
+    font-size: 1rem;
+  }
+  .bar-note {
+    margin-top: 1.25rem;
+  }
+  .menu-filters {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.5rem;
+    padding-bottom: 1.25rem;
+  }
+  .menu-filters button {
+    justify-content: center;
+    font-size: 0.8125rem;
+    min-height: 3rem;
+    padding: 0.5rem;
+    line-height: 1.2;
+  }
+  .menu-filters button span {
+    display: none;
+  }
+  .drinks-list {
+    min-height: 0;
+  }
+  .drink-item {
+    column-gap: 1rem;
+  }
+  .drink-item dt {
+    font-size: 1.875rem;
+  }
+  .drink-price {
+    font-size: 1.25rem;
+  }
+  .drink-meta {
+    flex-wrap: wrap;
+    column-gap: 0.5rem;
+    row-gap: 0.25rem;
+    line-height: 1.5;
+    letter-spacing: 0.12em;
+  }
+  .menu-end {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .story-manifesto h2 {
+    font-size: 2.75rem;
+    margin: 1.25rem 0 2rem;
+  }
+  .story-arch {
+    display: none;
+  }
+  .story-layout {
+    gap: 2rem;
+  }
+  .story-copy .story-lede {
+    font-size: 1.875rem;
+  }
+  .story-numbers {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+  }
+  .story-numbers > div {
+    gap: 0.75rem;
+    padding-inline: 0.25rem;
+  }
+  .story-numbers .label {
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    text-align: center;
+    line-height: 1.5;
+  }
+  .visit-layout {
+    gap: 2rem;
+  }
+  .visit-information {
+    order: -1;
+  }
+  .visit-information address > .display {
+    font-size: 2.5rem;
+  }
+  .visit-information > .label:not(:first-child) {
+    margin-top: 1.25rem;
+    line-height: 1.5;
+  }
+  .visit-hours > div {
+    font-size: 0.9375rem;
+    gap: 0.5rem;
+  }
+  .visit-hours dd {
+    white-space: nowrap;
+  }
+  .courtyard-guide {
+    padding: 2rem 1.25rem;
+    border-radius: 14rem 14rem 1rem 1rem;
+  }
+  .guide-heading {
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 0.5rem 0;
+    text-align: center;
+    gap: 0.5rem;
+  }
+  .guide-heading span:last-child {
+    max-width: none;
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+  }
+  .courtyard-route {
+    grid-template-columns: 1fr;
+    margin: 2rem 0;
+    gap: 0.75rem;
+  }
+  .route-stop {
+    display: grid;
+    grid-template-columns: 4rem 1fr;
+    grid-template-rows: auto auto auto;
+    text-align: left;
+    column-gap: 1rem;
+  }
+  .route-arch {
+    grid-column: 1;
+    grid-row: 1/4;
+    height: 6rem;
+    align-self: center;
+  }
+  .route-arch svg {
+    height: 2.75rem;
+  }
+  .route-number {
+    grid-column: 2;
+    margin: 0;
+  }
+  .route-stop h3 {
+    grid-column: 2;
+    font-size: 1.875rem;
+    margin-top: 0.5rem;
+  }
+  .route-stop p {
+    grid-column: 2;
+    font-size: 0.9375rem;
+    margin-top: 0.5rem;
+  }
+  .route-arrow {
+    justify-self: start;
+    width: 4rem;
+    text-align: center;
+    margin: 0;
+    transform: rotate(90deg);
+    font-size: 1.5rem;
+  }
+  .guide-bottom {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.5rem 0 0;
+    border-top: 1px solid;
+    text-align: center;
+  }
+  .guide-bottom .display {
+    font-size: 2.25rem;
+  }
+  .footer-top {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding-bottom: 2rem;
+  }
+  .footer-contact > a {
+    min-height: 2.75rem;
+    display: inline-flex;
+    align-items: center;
+  }
+  .footer-bottom {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .footer-bottom nav {
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+  .footer-bottom nav a {
+    display: flex;
+    align-items: center;
+    min-height: 2.75rem;
+  }
+  .site-footer {
+    padding-bottom: 0;
+  }
+  .footer-wordmark {
+    margin-bottom: -0.5rem;
+  }
+}
+
+@media (pointer: coarse) {
+  .section-shell {
+    scroll-margin-top: 5rem;
   }
 }

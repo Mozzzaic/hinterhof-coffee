@@ -1,57 +1,136 @@
+"use client";
+
+import { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
 import { products } from "@/lib/products";
-import { ProductImage, ProductDetails } from "./ProductCard";
 import Reveal from "./Reveal";
 
-const gridCols = "grid-cols-[1.4fr_1fr_1fr_1fr] max-[620px]:grid-cols-2 max-[440px]:grid-cols-1";
+const personalities = [
+  "Your everyday regular",
+  "Light, floral, unhurried",
+  "For the late hours",
+  "Eighteen hours. Ice cold.",
+];
 
 export default function Shop() {
+  const [selected, setSelected] = useState(0);
+  const product = products[selected];
   return (
-    <section
-      id="coffee"
-      className="scroll-mt-20 bg-chalk px-6 pt-16 pb-14 md:px-10 md:pt-20 md:pb-24"
-    >
-      <div className="mx-auto max-w-[1400px]">
-        <Reveal
-          className="grid grid-cols-1 items-end gap-x-14 gap-y-5 border-t-[6px] border-ink pt-5 min-[620px]:grid-cols-[minmax(0,1fr)_minmax(0,34ch)]"
-        >
+    <section id="coffee" className="coffee-section section-shell">
+      <div className="site-container">
+        <Reveal className="section-heading">
           <div>
-            <p className="label">01 / The shelf</p>
-            <h2 className="display mt-3.5 text-[clamp(2.75rem,6.5vw,5.5rem)] lowercase">
-              four bags, no filler
+            <p className="label">01 / Take a little Hinterhof home</p>
+            <h2 className="display">
+              find your
+              <br />
+              daily ritual.
             </h2>
           </div>
-          <p className="mb-2 text-base leading-snug">
-            What is on the shelf is what came off the roaster this fortnight.
-            When a lot runs out it does not come back.
-          </p>
+          <div className="section-heading-note">
+            <p>
+              Three coffees. One cold brew. All roasted in the courtyard, with
+              something different to say.
+            </p>
+            <p className="label mt-5">Choose your coffee below ↙</p>
+          </div>
         </Reveal>
-
-        <div className={`mt-18 grid items-stretch gap-x-9 gap-y-7 border-b-8 border-ink pb-5.5 ${gridCols}`}>
-          {products.map((product, index) => (
-            <Reveal
-              key={product.slug}
-              delay={index * 0.07}
-              className="min-w-0"
-            >
-              <ProductImage product={product} />
-            </Reveal>
-          ))}
+        <Reveal className="coffee-explorer">
+          <div
+            className="coffee-selection"
+            role="group"
+            aria-label="Choose a coffee"
+          >
+            {products.map((item, index) => (
+              <button
+                key={item.slug}
+                type="button"
+                aria-pressed={selected === index}
+                aria-controls="coffee-profile"
+                onClick={() => setSelected(index)}
+                className="coffee-choice"
+              >
+                <span className="label">0{index + 1}</span>
+                <span>
+                  <span className="display coffee-choice-name">
+                    {item.name}
+                  </span>
+                  <span className="coffee-choice-note">
+                    {personalities[index]}
+                  </span>
+                </span>
+                <span aria-hidden="true" className="coffee-choice-arrow">
+                  ↗
+                </span>
+              </button>
+            ))}
+            <p className="label coffee-selection-foot">
+              Small lots. Freshly roasted.
+              <br />
+              Available at the café.
+            </p>
+          </div>
+          <div
+            id="coffee-profile"
+            className="coffee-profile"
+            aria-live="polite"
+            aria-atomic="true"
+          >
+            <div className="coffee-portrait" key={product.image}>
+              <div className="duotone coffee-portrait-image">
+                <Image
+                  src={product.image}
+                  alt={`${product.name} — ${product.origin}`}
+                  fill
+                  sizes="(min-width: 1024px) 30vw, 80vw"
+                  className="object-cover"
+                />
+              </div>
+              <span className="coffee-price display">
+                €{product.price}
+                <span className="label">{product.weight}</span>
+              </span>
+            </div>
+            <div className="coffee-profile-copy" key={product.slug}>
+              <p className="label">{product.origin}</p>
+              <h3 className="display">{product.name}</h3>
+              <p className="coffee-profile-description">{product.copy}</p>
+              <ul className="flavour-notes" aria-label="Tasting notes">
+                {product.notes.map((note) => (
+                  <li key={note}>{note}</li>
+                ))}
+              </ul>
+              <div className="roast-scale">
+                <span className="label">Roast</span>
+                <span
+                  className="roast-dots"
+                  role="img"
+                  aria-label={`${product.roast} out of 5`}
+                >
+                  {Array.from({ length: 5 }, (_, i) => (
+                    <span
+                      key={i}
+                      data-filled={i < product.roast}
+                      aria-hidden="true"
+                    />
+                  ))}
+                </span>
+                <span className="label">{product.pricePerKg}</span>
+              </div>
+              <Link href="/#visit" className="pill-button">
+                Pick it up at the café <span aria-hidden="true">↗</span>
+              </Link>
+            </div>
+          </div>
+        </Reveal>
+        <div className="shelf-footnote">
+          <span className="label">From our roaster to your kitchen</span>
+          <p>
+            Rested ten days. Never more than three weeks off roast. Cash or
+            card, over the counter.
+          </p>
         </div>
-
-        <ul className={`grid gap-x-9 gap-y-7 ${gridCols}`}>
-          {products.map((product, index) => (
-            <Reveal as="li" key={product.slug} delay={index * 0.07}>
-              <ProductDetails product={product} lead={index === 0} />
-            </Reveal>
-          ))}
-        </ul>
-
-        <Reveal>
-          <p className="label mt-14 border-t-2 border-ink pt-4.5">
-            Sold over the counter, or at the roastery window on Thursdays from
-            16:00. Cash and card, no bag over three weeks past its roast date.
-          </p>
-        </Reveal>
       </div>
     </section>
   );

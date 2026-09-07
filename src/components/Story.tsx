@@ -1,66 +1,73 @@
 import Image from "next/image";
+import Link from "next/link";
+import { stats } from "@/lib/site";
+import Counter from "./Counter";
 import Reveal from "./Reveal";
+import ArchMark from "./ArchMark";
 
 export default function Story() {
   return (
-    <section id="story" className="scroll-mt-20 px-6 py-16 md:px-10 md:py-20">
-      <div className="mx-auto max-w-[1400px]">
-        <Reveal className="border-t-[6px] border-ink" />
-
-        <div className="mt-10 grid grid-cols-1 items-start gap-x-14 gap-y-10 min-[620px]:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
-          <Reveal as="figure" className="m-0 min-w-0">
-            <div className="relative pr-4 pb-4">
-              {/* Offset outline behind the photo — the double-frame motif. */}
-              <div
-                aria-hidden
-                className="absolute bottom-0 left-0 aspect-4/5 w-[calc(100%-1rem)] rounded-[1rem_18rem_1rem_18rem] border-2 border-ink"
+    <section id="story" className="story-section section-shell">
+      <div className="site-container">
+        <Reveal className="story-manifesto">
+          <p className="label">03 / A little further back, since 2016</p>
+          <h2 className="display">
+            better coffee.
+            <br />
+            fewer shortcuts.
+          </h2>
+          <ArchMark className="story-arch" />
+        </Reveal>
+        <div className="story-layout">
+          <Reveal as="figure" className="story-photo">
+            <div className="duotone story-photo-crop">
+              <Image
+                src="/images/roastery.jpg"
+                alt="Freshly roasted beans emptying from a Probat drum roaster."
+                fill
+                sizes="(min-width: 1024px) 48vw, 90vw"
+                className="object-cover"
               />
-              <div className="duotone relative aspect-4/5 w-full rounded-[1rem_18rem_1rem_18rem]">
-                <Image
-                  src="/images/roastery.jpg"
-                  alt="The drum roaster mid-batch, beans tumbling behind the glass."
-                  fill
-                  sizes="(max-width: 1024px) 90vw, 40vw"
-                  className="object-cover"
-                />
-              </div>
             </div>
-            <figcaption className="label mt-3.5">
-              The Probat, mid-batch · 2. Hinterhof
+            <figcaption className="label">
+              Small batches. Every detail, by hand.
             </figcaption>
           </Reveal>
-
-          <div className="min-w-0">
-            <Reveal>
-              <p className="label">03 / Our story</p>
-              <h2 className="display mt-3.5 text-[clamp(2.5rem,5vw,4.25rem)] lowercase">
-                nine years, one courtyard
-              </h2>
-              <p className="mt-7 max-w-[40ch] text-[clamp(1.5rem,2.4vw,2.25rem)] leading-[1.14] font-medium text-pretty">
-                Rent on the street is for people selling something you already
-                know you want. We are two courtyards back.
-              </p>
-            </Reveal>
-
-            <Reveal className="mt-8 [columns:16.25rem_2] gap-10 text-base leading-relaxed">
-              <p className="mb-4">
-                Hinterhof started in 2016 with a second-hand 5 kg roaster and a
-                lease nobody else wanted: a workshop off the second courtyard,
-                no sign on the street, one grinder. The 12 kg Probat replaced
-                it in 2019 and has done every batch since.
-              </p>
-              <p>
-                Since 2022 most of the coffee arrives on repeat contracts with
-                two importers who publish what the producer was paid; the rest
-                comes from the same two farms we opened with. The arithmetic
-                has not changed either: small lots, roasted thirty-eight steps
-                from the bar, rested ten days before they reach the shelf.
-                That last part costs us storage and patience, and it is the
-                only part we will not shorten.
-              </p>
-            </Reveal>
-          </div>
+          <Reveal className="story-copy">
+            <p className="story-lede">
+              The best things in Berlin aren’t always on the street.
+            </p>
+            <p>
+              We started with a second-hand 5 kg roaster and a workshop nobody
+              else wanted. No sign on the street. One grinder. A coffee worth
+              coming back for.
+            </p>
+            <p>
+              The Probat got bigger in 2019. The idea stayed small: buy
+              carefully, roast right here, and give every batch ten days to find
+              its feet.
+            </p>
+            <p>
+              Since 2022, most of our coffee comes through two importers who
+              publish what the producer was paid. The rest comes from the same
+              two farms we opened with.
+            </p>
+            <Link href="/#visit" className="pill-button pill-outline">
+              Come see how we roast <span aria-hidden="true">↗</span>
+            </Link>
+            <p className="label">
+              Thursdays at 16:00 · Free tours · Eight places
+            </p>
+          </Reveal>
         </div>
+        <Reveal className="story-numbers">
+          {stats.map((stat) => (
+            <div key={stat.unit}>
+              <Counter value={stat.figure} className="display" />
+              <span className="label">{stat.unit}</span>
+            </div>
+          ))}
+        </Reveal>
       </div>
     </section>
   );
