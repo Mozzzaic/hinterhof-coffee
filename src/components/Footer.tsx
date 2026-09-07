@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { nav, site } from "@/lib/site";
 import ArchMark from "./ArchMark";
+import Wordmark from "./Wordmark";
 
 export default function Footer() {
   return (
@@ -52,23 +53,7 @@ export default function Footer() {
           <span className="label">Independent since {site.founded}</span>
           <p className="label">© {new Date().getFullYear()} Hinterhof Coffee</p>
         </div>
-        <svg
-          viewBox="0 0 1000 172"
-          className="footer-wordmark"
-          aria-hidden="true"
-        >
-          <text
-            x="0"
-            y="155"
-            textLength="1000"
-            lengthAdjust="spacingAndGlyphs"
-            fontSize="200"
-            fill="currentColor"
-            className="display"
-          >
-            hinterhof
-          </text>
-        </svg>
+        <Wordmark className="footer-wordmark" />
       </div>
     </footer>
   );

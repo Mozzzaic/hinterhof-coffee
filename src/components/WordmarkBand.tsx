@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { useScrollParallax } from "@/lib/useScrollParallax";
+import Wordmark from "./Wordmark";
 
 /**
  * The oversized "hinterhof · hinterhof · hinterhof" line between the shelf
@@ -32,11 +33,11 @@ export default function WordmarkBand() {
         className="display flex w-max items-baseline gap-5 text-nowrap lowercase md:gap-8"
         style={{ fontSize: "clamp(3.5rem, 13vw, 11rem)" }}
       >
-        <span>hinterhof</span>
+        <Wordmark className="h-[0.88em] w-auto" />
         <span className="text-[0.4em]">·</span>
-        <span>hinterhof</span>
+        <Wordmark className="h-[0.88em] w-auto" />
         <span className="text-[0.4em]">·</span>
-        <span>hinterhof</span>
+        <Wordmark className="h-[0.88em] w-auto" />
       </div>
     </div>
   );

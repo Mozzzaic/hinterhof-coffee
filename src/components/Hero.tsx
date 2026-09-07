@@ -3,6 +3,7 @@ import Link from "next/link";
 import { site } from "@/lib/site";
 import { PourOver, ArcText } from "./Illustration";
 import ArchMark from "./ArchMark";
+import Wordmark from "./Wordmark";
 import OpenStatus from "./OpenStatus";
 import HeroMotion from "./HeroMotion";
 
@@ -16,19 +17,7 @@ export default function Hero() {
         </div>
         <h1 className="poster-wordmark">
           <span className="sr-only">Hinterhof Coffee</span>
-          <svg viewBox="0 0 1000 185" aria-hidden="true">
-            <text
-              x="0"
-              y="157"
-              textLength="1000"
-              lengthAdjust="spacingAndGlyphs"
-              fontSize="200"
-              fill="currentColor"
-              className="display"
-            >
-              hinterhof
-            </text>
-          </svg>
+          <Wordmark />
         </h1>
         <div className="poster-scene">
           <div className="poster-intro">

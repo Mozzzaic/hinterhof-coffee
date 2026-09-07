@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { nav, site } from "@/lib/site";
 import ArchMark from "./ArchMark";
+import Wordmark from "./Wordmark";
 
 export default function Header() {
   const headerRef = useRef<HTMLElement>(null);
@@ -78,7 +79,7 @@ export default function Header() {
           onClick={() => setOpen(false)}
         >
           <ArchMark className="h-7 w-auto" />
-          <span className="display text-2xl lowercase">{site.name}</span>
+          <Wordmark className="h-6 w-auto" />
         </Link>
 
         <nav aria-label="Primary" className="hidden items-center gap-8 md:flex">
