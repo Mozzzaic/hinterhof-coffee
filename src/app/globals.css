@@ -310,8 +310,15 @@
   overflow: clip;
   clip-path: inset(0 round 1rem 18rem 1rem 18rem);
   contain: paint;
-  transform: translateZ(0);
-  backface-visibility: hidden;
+  background: var(--color-ink-deep);
+}
+/* Keep the mask stationary. Zoom the complete, isolated duotone composition
+   (ground, photo and tint) together, never the blending photo on its own. */
+.poster-image-artwork {
+  position: absolute;
+  inset: 0;
+  transform: scale(1);
+  transition: transform 0.7s var(--ease-expo);
 }
 .poster-image-outline {
   position: absolute;
@@ -938,6 +945,9 @@
   }
   .footer-hallo:hover span {
     transform: translate(4px, -4px);
+  }
+  .poster-image-crop:hover .poster-image-artwork {
+    transform: scale(1.05);
   }
   .story-photo img {
     transition: transform 0.7s var(--ease-expo);

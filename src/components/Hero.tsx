@@ -49,15 +49,17 @@ export default function Hero() {
           </div>
           <figure className="poster-image animate-rise">
             <div className="poster-image-outline" aria-hidden="true" />
-            <div className="duotone poster-image-crop">
-              <Image
-                src="/images/products/goerli.jpg"
-                alt="A freshly poured coffee beside a portafilter and coffee beans."
-                fill
-                preload
-                sizes="(min-width: 1024px) 42vw, 90vw"
-                className="object-cover"
-              />
+            <div className="poster-image-crop">
+              <div className="duotone poster-image-artwork">
+                <Image
+                  src="/images/products/goerli.jpg"
+                  alt="A freshly poured coffee beside a portafilter and coffee beans."
+                  fill
+                  preload
+                  sizes="(min-width: 1024px) 42vw, 90vw"
+                  className="object-cover"
+                />
+              </div>
             </div>
             <div className="poster-stamp" aria-hidden="true">
               <div className="animate-spin-slow">
