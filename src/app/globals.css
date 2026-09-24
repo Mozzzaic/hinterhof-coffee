@@ -1964,7 +1964,9 @@ html[data-press="on"] .route-stop {
     align-items: stretch;
     gap: 1.25rem;
   }
+  /* In a column the 30rem basis would be a height: size to the content. */
   .poster-pour {
+    flex: none;
     align-items: stretch;
   }
   .stage-rail {
@@ -2200,8 +2202,31 @@ html[data-press="on"] .route-stop {
   }
 }
 
+.note-touch {
+  display: none;
+}
+@media (hover: none) and (pointer: coarse) {
+  .note-pointer {
+    display: none;
+  }
+  .note-touch {
+    display: inline;
+  }
+}
 @media (pointer: coarse) {
   .section-shell {
     scroll-margin-top: 4rem;
+  }
+  /* A finger needs 44px. Small links and labels grow their hit area, not
+     their look: the padding is given back as negative margin. */
+  .site-header-brand {
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+  }
+  .poster-actions .link-draw,
+  .pour-again,
+  .footer-hallo {
+    padding-block: 0.8125rem;
+    margin-block: -0.8125rem;
   }
 }

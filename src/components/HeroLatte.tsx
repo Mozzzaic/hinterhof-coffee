@@ -78,8 +78,10 @@ export default function HeroLatte() {
       </div>
       <div className="poster-latte-foot">
         <div className="poster-note" aria-hidden="true">
+          {/* A finger taps a drop in; a mouse stirs. */}
           <p className="display">
-            stir it,
+            <span className="note-pointer">stir it,</span>
+            <span className="note-touch">tap it,</span>
             <br />
             it’s yours.
           </p>
