@@ -6,6 +6,7 @@ import Bar from "@/components/Bar";
 import Story from "@/components/Story";
 import Visit from "@/components/Visit";
 import Footer from "@/components/Footer";
+import MotionLayer from "@/components/MotionLayer";
 import { site } from "@/lib/site";
 
 /** Rich result for a physical coffee bar — worth having on a local business. */
@@ -66,6 +67,7 @@ export default function Home() {
         <Visit />
       </main>
       <Footer />
+      <MotionLayer />
     </>
   );
 }

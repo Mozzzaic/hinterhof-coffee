@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { nav, site } from "@/lib/site";
 import ArchMark from "./ArchMark";
-import Wordmark from "./Wordmark";
+import InkWordmark from "./InkWordmark";
+import Reveal from "./Reveal";
 
 export default function Footer() {
   return (
@@ -12,9 +13,18 @@ export default function Footer() {
             <p className="label">A table, a tour, a question?</p>
             <a
               href={`mailto:${site.contact.email}`}
-              className="display footer-hallo"
+              className="footer-hallo"
+              aria-label={`Say hallo: write to ${site.contact.email}`}
             >
-              say hallo. <span aria-hidden="true">↗</span>
+              {/* One span per letter: they rise in a wave under the pointer. */}
+              <Reveal as="span" className="display">
+                {[..."say hallo."].map((letter, index) => (
+                  <span key={index} className="wave-letter">
+                    {letter === " " ? " " : letter}
+                  </span>
+                ))}{" "}
+                <span className="hallo-arrow">↗</span>
+              </Reveal>
             </a>
           </div>
           <div className="footer-contact">
@@ -34,7 +44,7 @@ export default function Footer() {
             </p>
           </div>
           <Link href="/#top" className="footer-back">
-            <ArchMark className="h-10 w-auto" />
+            <ArchMark className="footer-back-mark" />
             <span className="label">Back to the top ↑</span>
           </Link>
         </div>
@@ -53,7 +63,7 @@ export default function Footer() {
           <span className="label">Independent since {site.founded}</span>
           <p className="label">© {new Date().getFullYear()} Hinterhof Coffee</p>
         </div>
-        <Wordmark className="footer-wordmark" />
+        <InkWordmark className="footer-wordmark" letters="sky" />
       </div>
     </footer>
   );

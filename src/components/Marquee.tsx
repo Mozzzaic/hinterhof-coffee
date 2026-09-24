@@ -7,11 +7,15 @@ const Dot = () => (
   />
 );
 
-/** A steady CSS-only loop, independent of scroll speed and direction. */
+/**
+ * The origins, on a loop. Without JavaScript (or under reduced motion) a
+ * steady CSS lap; with it, MotionLayer drives the track and lets it speed up
+ * and turn with the scroll.
+ */
 export default function Marquee() {
   return (
     <div className="overflow-hidden bg-ink py-3 text-sky">
-      <div className="flex w-max animate-marquee">
+      <div className="flex w-max animate-marquee" data-marquee>
         {[0, 1].map((copy) => (
           <ul
             key={copy}

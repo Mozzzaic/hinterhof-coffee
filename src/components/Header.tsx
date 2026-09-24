@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { nav, site } from "@/lib/site";
 import ArchMark from "./ArchMark";
+import OpenStatus from "./OpenStatus";
 import Wordmark from "./Wordmark";
 
 export default function Header() {
@@ -14,25 +15,36 @@ export default function Header() {
   const [active, setActive] = useState("");
 
   useEffect(() => {
-    const updateActive = () => {
-      let current = "";
-      for (const item of nav) {
+    // Where each section starts, measured once and on resize: the scroll
+    // handler then only compares numbers and never asks for layout.
+    let starts: Array<{ href: string; top: number }> = [];
+    const measure = () => {
+      starts = nav.flatMap((item) => {
         const section = document.getElementById(item.href.slice(2));
-        if (section && section.getBoundingClientRect().top <= 180)
-          current = item.href;
-      }
+        return section
+          ? [{ href: item.href, top: section.getBoundingClientRect().top + window.scrollY }]
+          : [];
+      });
+    };
+    const update = () => {
+      const y = window.scrollY;
+      setScrolled(y > 24);
+      let current = "";
+      for (const start of starts) if (start.top - y <= 180) current = start.href;
       setActive(current);
     };
-    updateActive();
-    window.addEventListener("scroll", updateActive, { passive: true });
-    return () => window.removeEventListener("scroll", updateActive);
-  }, []);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    measure();
+    update();
+    const sizer = new ResizeObserver(() => {
+      measure();
+      update();
+    });
+    sizer.observe(document.body);
+    window.addEventListener("scroll", update, { passive: true });
+    return () => {
+      sizer.disconnect();
+      window.removeEventListener("scroll", update);
+    };
   }, []);
 
   useEffect(() => {
@@ -50,7 +62,7 @@ export default function Header() {
       )
         setOpen(false);
     };
-    const desktop = window.matchMedia("(min-width: 48rem)");
+    const desktop = window.matchMedia("(min-width: 64rem)");
     const resize = () => {
       if (desktop.matches) setOpen(false);
     };
@@ -64,25 +76,29 @@ export default function Header() {
     };
   }, [open]);
 
+  const phone = `tel:${site.contact.phone.replace(/\s/g, "")}`;
+
   return (
     <header
       ref={headerRef}
-      className={`sticky top-0 z-50 bg-sky transition-shadow duration-300 ${
-        scrolled ? "shadow-[0_2px_0_0_var(--color-ink)]" : ""
-      }`}
+      className="site-header"
+      data-scrolled={scrolled}
+      data-open={open}
     >
-      <div className="mx-auto flex max-w-[1400px] items-center justify-between px-6 py-4 md:px-10 lg:py-5">
+      <div className="site-header-bar">
         <Link
           href="/#top"
-          className="flex items-center gap-2.5"
+          className="site-header-brand"
           aria-label={`${site.fullName} — home`}
           onClick={() => setOpen(false)}
         >
-          <ArchMark className="h-7 w-auto" />
-          <Wordmark className="h-6 w-auto" />
+          <ArchMark className="site-header-arch" />
+          <Wordmark className="site-header-wordmark" />
         </Link>
 
-        <nav aria-label="Primary" className="hidden items-center gap-8 md:flex">
+        <OpenStatus variant="short" className="site-header-status" />
+
+        <nav aria-label="Primary" className="site-header-nav">
           {nav.map((item) => (
             <Link
               key={item.href}
@@ -93,11 +109,8 @@ export default function Header() {
               {item.label}
             </Link>
           ))}
-          <a
-            href={`tel:${site.contact.phone.replace(/\s/g, "")}`}
-            className="label rounded-full border-2 border-ink px-5 py-2.5 transition-colors duration-200 hover:bg-ink hover:text-sky"
-          >
-            Call the café ↗
+          <a href={phone} className="pill-button pill-outline pill-small">
+            Call the café <span aria-hidden="true">↗</span>
           </a>
         </nav>
 
@@ -107,19 +120,11 @@ export default function Header() {
           onClick={() => setOpen((value) => !value)}
           aria-expanded={open}
           aria-controls="mobile-nav"
-          className="-mr-2 flex h-12 w-12 flex-col items-center justify-center gap-1.5 md:hidden"
+          className="menu-button"
         >
           <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
-          <span
-            className={`block h-0.5 w-6 rounded-full bg-ink transition-transform duration-300 ${
-              open ? "translate-y-[4px] rotate-45" : ""
-            }`}
-          />
-          <span
-            className={`block h-0.5 w-6 rounded-full bg-ink transition-transform duration-300 ${
-              open ? "-translate-y-[4px] -rotate-45" : ""
-            }`}
-          />
+          <span aria-hidden="true" />
+          <span aria-hidden="true" />
         </button>
       </div>
 
@@ -128,11 +133,11 @@ export default function Header() {
         data-lenis-prevent
         id="mobile-nav"
         hidden={!open}
-        className="mobile-navigation md:hidden"
+        className="mobile-navigation"
       >
         <ul>
           {nav.map((item, index) => (
-            <li key={item.href}>
+            <li key={item.href} style={{ "--i": index } as React.CSSProperties}>
               <Link
                 href={item.href}
                 onClick={() => setOpen(false)}
@@ -145,13 +150,13 @@ export default function Header() {
             </li>
           ))}
         </ul>
-        <a
-          href={`tel:${site.contact.phone.replace(/\s/g, "")}`}
-          className="label mt-6 block rounded-full bg-ink px-6 py-4 text-center text-sky"
-        >
-          Call the café ↗
+        <OpenStatus className="mobile-navigation-status" />
+        <a href={phone} className="pill-button mobile-navigation-call">
+          Call the café <span aria-hidden="true">↗</span>
         </a>
-        <p className="label mt-5">{site.address.street} · Kreuzberg</p>
+        <p className="label mobile-navigation-address">
+          {site.address.street} · Kreuzberg
+        </p>
       </nav>
     </header>
   );

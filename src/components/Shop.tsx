@@ -1,30 +1,35 @@
 import Link from "next/link";
 import { products } from "@/lib/products";
 import Reveal from "./Reveal";
+import LineReveal from "./LineReveal";
 import ProductCard from "./ProductCard";
+import { PourOver } from "./Illustration";
 
 export default function Shop() {
   return (
     <section id="coffee" className="coffee-section section-shell">
       <div className="site-container">
-        <Reveal className="section-heading">
+        <div className="section-heading">
           <div>
-            <p className="label">01 / Take a little Hinterhof home</p>
-            <h2 className="display">
+            <Reveal as="p" className="label">
+              01 / Take a little Hinterhof home
+            </Reveal>
+            <LineReveal className="display">
               find your
               <br />
               daily ritual.
-            </h2>
+            </LineReveal>
           </div>
-          <div className="section-heading-note">
+          <Reveal className="section-heading-note" delay={0.14}>
+            <PourOver className="section-heading-drawing" />
             <p>
               Three coffees. One cold brew. All roasted in the courtyard, with
               something different to say.
             </p>
-            <p className="label mt-5">Meet your next morning ↓</p>
-          </div>
-        </Reveal>
-        <div className="ritual-shelf">
+            <p className="label">Meet your next morning ↓</p>
+          </Reveal>
+        </div>
+        <div className="shelf">
           {products.map((product, index) => (
             <ProductCard key={product.slug} product={product} index={index} />
           ))}

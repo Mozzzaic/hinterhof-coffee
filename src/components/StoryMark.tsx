@@ -34,7 +34,7 @@ export default function StoryMark() {
   }, []);
 
   return (
-    <span ref={ref} className="story-arch" aria-hidden="true">
+    <span ref={ref} className="story-arch" aria-hidden="true" data-drift>
       <ArchMark />
     </span>
   );

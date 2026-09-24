@@ -1,90 +1,33 @@
 import { site } from "@/lib/site";
-import Reveal from "./Reveal";
+import LineReveal from "./LineReveal";
 import OpenStatus from "./OpenStatus";
-import ArchMark from "./ArchMark";
-import VisitMotion from "./VisitMotion";
+import Reveal from "./Reveal";
+import VisitWalk from "./VisitWalk";
 
 export default function Visit() {
   return (
-    <VisitMotion>
+    <section id="visit" className="visit-section section-shell">
       <div className="site-container">
-        <Reveal className="section-heading">
+        <div className="section-heading">
           <div>
-            <p className="label">04 / See you out back</p>
-            <h2 className="display">you’re nearly here.</h2>
+            <Reveal as="p" className="label">
+              04 / See you out back
+            </Reveal>
+            <LineReveal className="display">you’re nearly here.</LineReveal>
           </div>
-          <a
-            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(site.mapsQuery)}`}
-            target="_blank"
-            rel="noreferrer noopener"
-            className="pill-button"
-          >
-            Get directions <span aria-hidden="true">↗</span>
-          </a>
-        </Reveal>
-        <div className="visit-layout">
-          <Reveal className="courtyard-guide">
-            <div className="guide-heading label">
-              <span>Finding us is part of it.</span>
-              <span>A courtyard guide · Not to scale</span>
-            </div>
-            <div className="courtyard-route">
-              <div className="route-stop">
-                <span className="route-number label">01</span>
-                <div className="route-arch">
-                  <ArchMark className="h-20 w-auto" />
-                </div>
-                <h3 className="display">off the street</h3>
-                <p>
-                  Oranienstraße 147.
-                  <br />
-                  Through the passage.
-                </p>
-              </div>
-              <span className="route-arrow" aria-hidden="true">
-                →
-              </span>
-              <div className="route-stop">
-                <span className="route-number label">02</span>
-                <div className="route-arch">
-                  <ArchMark className="h-20 w-auto" />
-                </div>
-                <h3 className="display">keep going</h3>
-                <p>
-                  Past the bins.
-                  <br />
-                  Across the first courtyard.
-                </p>
-              </div>
-              <span className="route-arrow" aria-hidden="true">
-                →
-              </span>
-              <div className="route-stop route-destination">
-                <span className="route-number label">03</span>
-                <div className="route-arch">
-                  <ArchMark className="h-20 w-auto" />
-                </div>
-                <h3 className="display">you’re here.</h3>
-                <p>
-                  Second courtyard.
-                  <br />
-                  The lit door on your right.
-                </p>
-              </div>
-            </div>
-            <div className="guide-bottom">
-              <p className="display">
-                looks closed.
-                <br />
-                probably isn’t.
-              </p>
-              <p>
-                The passage is unmarked.
-                <br />
-                Come on through.
-              </p>
-            </div>
+          <Reveal delay={0.14}>
+            <a
+              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(site.mapsQuery)}`}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="pill-button"
+            >
+              Get directions <span aria-hidden="true">↗</span>
+            </a>
           </Reveal>
+        </div>
+        <div className="visit-layout">
+          <VisitWalk />
           <Reveal className="visit-information" delay={0.14}>
             <p className="label">Your next coffee is here</p>
             <address>
@@ -127,6 +70,6 @@ export default function Visit() {
           </Reveal>
         </div>
       </div>
-    </VisitMotion>
+    </section>
   );
 }

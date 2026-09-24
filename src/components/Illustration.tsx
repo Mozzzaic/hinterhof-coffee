@@ -85,12 +85,16 @@ export function PourOver({ className = "" }: { className?: string }) {
   );
 }
 
-/** The bar's lever machine: group head, portafilter, steam wand, gauges. */
+/**
+ * The bar's lever machine: group head, portafilter, steam wand, gauges.
+ * The lever, the needle and the pour are their own groups so the bar can
+ * pull a shot when a drink is pointed at (see Bar.tsx).
+ */
 export function LeverMachine({ className = "" }: { className?: string }) {
   const filterId = useId();
   return (
     <svg
-      viewBox="0 0 350 420"
+      viewBox="0 0 362 420"
       className={className}
       role="img"
       aria-label="The lever espresso machine, a cup under the group head."
@@ -105,23 +109,44 @@ export function LeverMachine({ className = "" }: { className?: string }) {
         <circle cx="165" cy="70" r="10" />
         <circle cx="112" cy="186" r="28" />
         <circle cx="112" cy="186" r="4" />
-        <path d="M112 186l16-14" />
+        <g className="machine-needle">
+          <path d="M112 186l16-14" />
+        </g>
         <path d="M196 168h68" />
         <path d="M196 200h68" />
-        <path d="M286 130l40-32" />
-        <circle cx="332" cy="92" r="9" />
+        <g className="machine-lever">
+          <path d="M286 130l40-32" />
+          <circle cx="332" cy="92" r="9" />
+        </g>
         <path d="M40 236c-18 6-26 22-24 44" />
         <path d="M16 288v12" />
         <path d="M141 300v18c0 6 5 11 11 11h32c6 0 11-5 11-11v-18" />
         <path d="M195 320h44" />
         <circle cx="248" cy="320" r="8" />
         <path d="M158 329v9M178 329v9" />
+        <path className="machine-pour" d="M158 340v14M178 340v14" />
         <ellipse cx="168" cy="356" rx="27" ry="7" />
         <path d="M141 356v14c0 12 12 21 27 21s27-9 27-21v-14" />
         <path d="M195 362c10 1 16 5 16 11s-6 10-16 11" />
         <path d="M78 300v94M266 300v94" />
         <path d="M58 394h230" />
         <path d="M58 394v11M288 394v11" />
+      </g>
+    </svg>
+  );
+}
+
+/** A pencil arrow, for notes scribbled on the page. */
+export function HandArrow({ className = "" }: { className?: string }) {
+  const filterId = useId();
+  return (
+    <svg viewBox="0 0 160 90" className={className} aria-hidden="true">
+      <defs>
+        <RoughFilter id={filterId} scale={2.2} />
+      </defs>
+      <g filter={`url(#${filterId})`} {...stroke}>
+        <path className="hand-arrow-line" d="M8 70C30 30 74 14 142 22" />
+        <path className="hand-arrow-head" d="M124 8l20 14-18 14" />
       </g>
     </svg>
   );
@@ -147,9 +172,11 @@ export function ArcText({
       </defs>
       <text
         fill="currentColor"
-        fontSize="15.5"
+        fontSize="16"
         fontWeight="700"
-        letterSpacing="2.6"
+        letterSpacing="2.4"
+        textLength="486"
+        lengthAdjust="spacing"
       >
         <textPath href={`#${pathId}`} startOffset="0%">
           {text}

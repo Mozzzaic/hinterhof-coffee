@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Bagel_Fat_One, Familjen_Grotesk } from "next/font/google";
 import "./globals.css";
 import { site } from "@/lib/site";
+import { ink } from "@/lib/ink";
+import { PRESS_SCRIPT } from "@/lib/webgl/support";
 import SmoothScroll from "@/components/SmoothScroll";
 
 const bagel = Bagel_Fat_One({
@@ -52,7 +54,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport = {
-  themeColor: "#c5d9f5",
+  themeColor: ink.sky,
 };
 
 export default function RootLayout({
@@ -64,12 +66,18 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${bagel.variable} ${familjen.variable} h-full`}
+      suppressHydrationWarning
     >
+      <head>
+        {/* Decides before the first paint whether the WebGL press will run,
+            so the static stand-ins never flash. See lib/webgl/support.ts. */}
+        <script dangerouslySetInnerHTML={{ __html: PRESS_SCRIPT }} />
+      </head>
       <body className="min-h-full bg-sky text-ink">
         <SmoothScroll />
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-100 focus:rounded-full focus:bg-ink focus:px-5 focus:py-3 focus:text-sm focus:text-sky"
+          className="skip-link label"
         >
           Skip to content
         </a>

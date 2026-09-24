@@ -5,7 +5,7 @@ import { useEffect, useRef, type ElementType, type ReactNode } from "react";
 type Props = {
   /** Optional — a bare divider rule can reveal with nothing inside it. */
   children?: ReactNode;
-  /** Seconds. Use ~0.06–0.08 steps between siblings — choreography, not lag. */
+  /** Seconds. Use 0.07 steps between siblings — choreography, not lag. */
   delay?: number;
   /** Travel distance in px. */
   y?: number;
@@ -14,11 +14,11 @@ type Props = {
 };
 
 /**
- * Scroll reveal — transform + opacity only, so it stays GPU-composited.
- *
- * Deliberately not a Motion component: the reveal is two properties, and a
- * plain IntersectionObserver keeps the JS payload (and the Lighthouse score)
- * where we want it. Reduced motion and no-JS are handled in globals.css.
+ * Scroll reveal, the printed way: the block slides up out of a cut in the
+ * page (clip-path and transform, never opacity). Only blocks that start
+ * below the fold are ever hidden, so nothing that is already on screen at
+ * load, or reached through a deep link, blinks. Without JavaScript, or with
+ * reduced motion, everything is simply there.
  */
 export default function Reveal({
   children,
@@ -31,27 +31,30 @@ export default function Reveal({
 
   useEffect(() => {
     const node = ref.current;
-    if (!node) return;
+    if (!node || !("IntersectionObserver" in window)) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (node.getBoundingClientRect().top < window.innerHeight * 0.92) return;
 
-    if (!("IntersectionObserver" in window)) {
-      node.dataset.revealed = "true";
-      return;
-    }
-
+    node.dataset.reveal = "pending";
+    let timer = 0;
+    const settle = () => {
+      node.dataset.reveal = "done";
+    };
     const observer = new IntersectionObserver(
       (entries) => {
-        for (const entry of entries) {
-          if (!entry.isIntersecting) continue;
-          (entry.target as HTMLElement).dataset.revealed = "true";
-          observer.unobserve(entry.target);
-        }
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+        observer.disconnect();
+        node.dataset.reveal = "shown";
+        timer = window.setTimeout(settle, 900 + delay * 1000);
       },
-      { rootMargin: "0px 0px -12% 0px", threshold: 0 },
+      { rootMargin: "0px 0px -8% 0px" },
     );
-
     observer.observe(node);
-    return () => observer.disconnect();
-  }, []);
+    return () => {
+      observer.disconnect();
+      window.clearTimeout(timer);
+    };
+  }, [delay]);
 
   return (
     <Component

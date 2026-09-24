@@ -1,23 +1,22 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { gsap } from "@/lib/gsap";
 
 type Props = {
-  /** The final value, e.g. "10", "07", "38" — also sets the zero-pad width. */
+  /** The final value, e.g. "10", "07", "38" — also sets the number of wheels. */
   value: string;
   className?: string;
 };
 
+const DIGITS = Array.from({ length: 10 }, (_, digit) => digit);
+
 /**
- * Count-up stat. Server-rendered as its final value (so there is nothing to
- * flash before JS arrives), then — once scrolled into view, and only if the
- * visitor hasn't asked for reduced motion — tweened from 0 up to that value.
+ * A stat on a mechanical counter: one wheel per digit, rolling from zero to
+ * the value when it comes into view, the last wheel settling last.
  *
- * Plain IntersectionObserver rather than a ScrollTrigger-driven tween: the
- * same mechanism Reveal.tsx already uses reliably, and it sidesteps
- * ScrollTrigger's play/reverse semantics fighting React's dev-mode double
- * effect invocation, which was leaving the tween paused mid-count.
+ * Server-rendered at its final value, so there is nothing to flash before
+ * JavaScript arrives and nothing to read wrong without it. Screen readers get
+ * the plain number; the wheels are decoration.
  */
 export default function Counter({ value, className }: Props) {
   const ref = useRef<HTMLSpanElement>(null);
@@ -26,49 +25,52 @@ export default function Counter({ value, className }: Props) {
     const el = ref.current;
     if (!el) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (el.getBoundingClientRect().top < window.innerHeight * 0.92) return;
 
-    const target = parseFloat(value);
-    const counter = { v: 0 };
-    const finish = () => {
-      el.textContent = value;
-    };
-
-    let tween: gsap.core.Tween | null = null;
-
+    el.dataset.counter = "wound";
     const observer = new IntersectionObserver(
       (entries) => {
-        for (const entry of entries) {
-          if (!entry.isIntersecting) continue;
-          observer.disconnect();
-          tween = gsap.to(counter, {
-            v: target,
-            duration: 1.5,
-            ease: "power2.out",
-            onUpdate: () => {
-              el.textContent = String(Math.round(counter.v)).padStart(
-                value.length,
-                "0",
-              );
-            },
-            onComplete: finish,
-          });
-          tween.eventCallback("onInterrupt", finish);
-        }
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+        observer.disconnect();
+        // Two frames so the wound position is painted before it rolls.
+        requestAnimationFrame(() =>
+          requestAnimationFrame(() => {
+            el.dataset.counter = "rolled";
+          }),
+        );
       },
-      { threshold: 0 },
+      { rootMargin: "0px 0px -10% 0px" },
     );
-
     observer.observe(el);
-
-    return () => {
-      observer.disconnect();
-      tween?.kill();
-    };
-  }, [value]);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <span ref={ref} className={className}>
-      {value}
+    <span ref={ref} className={`counter ${className ?? ""}`}>
+      <span className="sr-only">{value}</span>
+      <span className="counter-wheels" aria-hidden="true">
+        {value.split("").map((digit, index) => (
+          <span
+            className="counter-wheel"
+            key={index}
+            style={
+              {
+                "--digit": Number(digit),
+                "--wheel": index,
+              } as React.CSSProperties
+            }
+          >
+            {/* The wheel is as wide as the digit it stops on: a 1 does not
+                sit in the box of a 0. */}
+            <span className="counter-size">{digit}</span>
+            <span className="counter-strip">
+              {DIGITS.map((n) => (
+                <span key={n}>{n}</span>
+              ))}
+            </span>
+          </span>
+        ))}
+      </span>
     </span>
   );
 }

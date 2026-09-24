@@ -74,6 +74,20 @@ export const stats = [
   { figure: "38", unit: "steps, bean to bar" },
 ] as const;
 
+/** The walk from the street to the door, one entry per courtyard guide stop. */
+export const route = [
+  { title: "off the street", lines: ["Oranienstraße 147.", "Through the passage."] },
+  { title: "keep going", lines: ["Past the bins.", "Across the first courtyard."] },
+  { title: "you’re here.", lines: ["Second courtyard.", "The lit door on your right."] },
+] as const;
+
+/** The hero's cup pours itself in three moves. */
+export const pour = [
+  { title: "double shot" },
+  { title: "steamed milk" },
+  { title: "one heart" },
+] as const;
+
 export const origins = [
   { line: "Ethiopia · Yirgacheffe — Chelbesa, washed" },
   { line: "Brazil · Cerrado — Fazenda Rainha, natural" },

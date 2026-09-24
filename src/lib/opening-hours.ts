@@ -8,8 +8,13 @@ function isHoliday(month: number, day: number) {
   return (month === 1 && day === 1) || (month === 12 && day >= 24 && day <= 26);
 }
 
+export type OpenState =
+  | { open: true; closes: string }
+  | { open: false; opensWhen: string; opensAt: string }
+  | { open: false; opensWhen: null; opensAt: null };
+
 /** Uses calendar parts in Berlin, independent of the visitor's timezone. */
-export function computeOpenStatus(date = new Date()): string {
+export function computeOpenState(date = new Date()): OpenState {
   const parts = new Intl.DateTimeFormat("en-GB", {
     timeZone: "Europe/Berlin",
     year: "numeric",
@@ -27,7 +32,7 @@ export function computeOpenStatus(date = new Date()): string {
   const now = value("hour") + value("minute") / 60;
   const [open, close] = site.weeklyHours[calendar.getUTCDay()];
   if (!isHoliday(value("month"), value("day")) && now >= open && now < close) {
-    return `Open now — until ${formatHour(close)} Berlin time`;
+    return { open: true, closes: formatHour(close) };
   }
   for (let offset = 0; offset < 8; offset++) {
     const next = new Date(calendar);
@@ -44,7 +49,36 @@ export function computeOpenStatus(date = new Date()): string {
               weekday: "long",
               timeZone: "UTC",
             }).format(next);
-    return `Closed — opens ${when} at ${formatHour(opensAt)}`;
+    return { open: false, opensWhen: when, opensAt: formatHour(opensAt) };
   }
+  return { open: false, opensWhen: null, opensAt: null };
+}
+
+/** The full sentence, as the hero and the visit section print it. */
+export function computeOpenStatus(date = new Date()): string {
+  const state = computeOpenState(date);
+  if (state.open) return `Open now — until ${state.closes} Berlin time`;
+  if (state.opensWhen)
+    return `Closed — opens ${state.opensWhen} at ${state.opensAt}`;
   return "See opening hours below";
+}
+
+/** The short form, for the header. */
+export function computeOpenShort(date = new Date()): string {
+  const state = computeOpenState(date);
+  if (state.open) return `Open until ${state.closes}`;
+  if (state.opensWhen === "today") return `Opens at ${state.opensAt}`;
+  if (state.opensWhen === "tomorrow") return `Opens tomorrow ${state.opensAt}`;
+  if (state.opensWhen) return `Opens ${state.opensWhen.slice(0, 3)} ${state.opensAt}`;
+  return "Opening hours";
+}
+
+/** The shortest form, for the header on a phone: the next opening is implied. */
+export function computeOpenTiny(date = new Date()): string {
+  const state = computeOpenState(date);
+  if (state.open) return `Open till ${state.closes}`;
+  if (state.opensWhen === "today" || state.opensWhen === "tomorrow")
+    return `Opens ${state.opensAt}`;
+  if (state.opensWhen) return `Opens ${state.opensWhen.slice(0, 3)} ${state.opensAt}`;
+  return "Hours";
 }

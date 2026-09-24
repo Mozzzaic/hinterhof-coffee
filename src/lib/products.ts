@@ -15,6 +15,12 @@ export type Product = {
   copy: string;
   price: number;
   image: string;
+  /**
+   * The crop the press prints: the subject the round frame centres on (0 to
+   * 1, from the top left) and how far it closes in, so one thing fills it.
+   */
+  focus: readonly [number, number];
+  zoom: number;
   status?: string;
 };
 
@@ -30,6 +36,9 @@ export const products: Product[] = [
     copy: "The blend the bar runs on. Sweet, heavy in the middle, holds its nerve under milk.",
     price: 14,
     image: "/images/products/goerli.jpg",
+    // The portafilter full of fresh grounds.
+    focus: [0.3, 0.6],
+    zoom: 1.8,
     status: "House",
   },
   {
@@ -43,6 +52,9 @@ export const products: Product[] = [
     copy: "Roasted light enough to keep the florals intact. Delicate, tea-like, best drunk slowly.",
     price: 17,
     image: "/images/products/kanal.jpg",
+    // The grid of beans, green to roasted.
+    focus: [0.59, 0.5],
+    zoom: 1.35,
     status: "New",
   },
   {
@@ -56,6 +68,9 @@ export const products: Product[] = [
     copy: "Our one genuinely dark roast, and unapologetic about it. Built for the end of a long shift.",
     price: 15,
     image: "/images/products/nachtschicht.jpg",
+    // A handful of dark beans, big enough to read as beans.
+    focus: [0.5, 0.5],
+    zoom: 2.4,
   },
   {
     slug: "kalt-achtzehn",
@@ -68,6 +83,9 @@ export const products: Product[] = [
     copy: "Eighteen hours in cold water, nothing added, bottled the same morning. Drink within five days.",
     price: 6,
     image: "/images/products/kalt-achtzehn.jpg",
+    // The glass.
+    focus: [0.42, 0.68],
+    zoom: 1.6,
     status: "Last",
   },
 ];
