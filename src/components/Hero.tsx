@@ -11,7 +11,7 @@ export default function Hero() {
       <div className="site-container">
         <div className="poster-credits label">
           <span>Independent coffee bar & roastery</span>
-          <span>Kreuzberg, Berlin · Since {site.founded}</span>
+          <span>Kreuzberg, Berlin</span>
         </div>
         <h1 className="poster-wordmark">
           <span className="sr-only">Hinterhof Coffee</span>

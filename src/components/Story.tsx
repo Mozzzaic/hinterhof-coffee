@@ -12,7 +12,7 @@ export default function Story() {
       <div className="site-container">
         <div className="story-manifesto">
           <Reveal as="p" className="label">
-            03 / A little further back, since 2016
+            03 / A little further back
           </Reveal>
           <LineReveal className="display">
             better coffee.

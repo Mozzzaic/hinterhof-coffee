@@ -60,7 +60,7 @@ export default function Footer() {
               </Link>
             ))}
           </nav>
-          <span className="label">Independent since {site.founded}</span>
+          <span className="label">Kreuzberg, Berlin</span>
           <p className="label">© {new Date().getFullYear()} Hinterhof Coffee</p>
         </div>
         <InkWordmark className="footer-wordmark" letters="sky" />

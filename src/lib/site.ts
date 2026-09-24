@@ -10,7 +10,6 @@ export const site = {
   description:
     "A specialty coffee bar and roastery in the back courtyards of Kreuzberg, Berlin. Seven origins on rotation, roasted on site, rested ten days.",
   url: "https://hinterhof.coffee",
-  founded: 2016,
 
   address: {
     street: "Oranienstraße 147",
